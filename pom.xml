@@ -11,6 +11,9 @@
 			<organization>Debreceni Egyetem - Informatikai Kar</organization>
 			<organizationUrl>http://w1.inf.unideb.hu/</organizationUrl>
 			<url>https://dl.dropboxusercontent.com/u/31525733/index.html</url>
+			<roles>
+				<role>developer</role>
+			</roles>
 		</developer>
 	</developers>
 	<!-- még ezt is ki kell tölteni -->
