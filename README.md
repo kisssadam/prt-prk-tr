@@ -19,15 +19,20 @@ A tanulmányi osztály feladatai:
 * Tantárgyak meghirdetése a jelenlegi félévre.
 * Gyakorlati csoportok hozzáadása egy meghirdetett tantárgyhoz.
 
-Az oktató feladatai:
+Az oktatók feladatai:
 --------------------
 * Aláírás beírása egy általa oktatott tantárgyra.
 * Vizsgaidőpontok meghirdetése.
 * Érdemjegy beírása a hallgatóknak.
 
-A hallgató feladatai:
+A hallgatók feladatai:
 ---------------------
 * Beiratkozás a jelenleg meghirdetett félévre.
 * Tantárgy felvétele gyakorlati csoporttal együtt.
 * Vizsgajelentkezés.
 
+Az alapértelmezett felhasználó adatai:
+--------------------------------------
+Felhasználónév: admin
+        Jelszó: admin
+Ezzel a felhasználóval el tudjuk érni a tanulmányi osztály, és innen kiindulva tudjuk használatba venni a programot.
