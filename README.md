@@ -39,5 +39,6 @@ Ezzel a felhasználóval el tudjuk érni a tanulmányi osztály, és innen kiind
 
 Adatbázissal kapcsolatos dolgok
 -------------------------------
-[Adatbázis séma](adatbazis_sema.pdf)
-[Adatbázist inicializáló sql fájl](tanulmanyi_rendszer.sql)
+* [Adatbázist inicializáló sql fájl.](tanulmanyi_rendszer.sql)
+* Az adatbázis séma: ![A kép nem érhető el](https://raw.githubusercontent.com/kisssandoradam/prt-prk-tr/master/adatbazis_sema.png)
+
