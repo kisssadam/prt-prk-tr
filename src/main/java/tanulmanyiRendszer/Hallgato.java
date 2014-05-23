@@ -14,6 +14,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Hallgato extends Felhasznalo {
 	/**
+	 * A következő hallgató id-je.
+	 */
+	private static int nextId = 0;
+	
+	/**
 	 * A hallgató szakja.
 	 */
 	private Szak szak;
@@ -39,6 +44,25 @@ public class Hallgato extends Felhasznalo {
 	private static Logger logger = LoggerFactory.getLogger(Hallgato.class);
 
 	/**
+	 * @param id A hallgató id-je. 
+	 * @param vezetéknév A hallgató vezetékneve.
+	 * @param keresztnév A hallgató keresztneve.
+	 * @param felhasználónév A hallgató felhasználóneve.
+	 * @param jelszó A hallgató jelszava.
+	 * @param születésnap A hallgató születésnapja.
+	 * @param szak A hallgató szakja.
+	 */
+	public Hallgato(int id, String vezetéknév, String keresztnév,
+			String felhasználónév, String jelszó, Date születésnap, Szak szak) {
+		super(id, vezetéknév, keresztnév, felhasználónév, jelszó, születésnap);
+		++nextId;
+		this.szak = szak;
+		felvettTantárgyak = new ArrayList<>();
+		felvettVizsgák = new ArrayList<>();
+		logger.trace("Új {} lett példányosítva: {}.", new Object[] {getClass().getName(), this});
+	}
+	
+	/**
 	 * 
 	 * @param vezetéknév A hallgató vezetékneve.
 	 * @param keresztnév A hallgató keresztneve.
@@ -49,11 +73,7 @@ public class Hallgato extends Felhasznalo {
 	 */
 	public Hallgato(String vezetéknév, String keresztnév,
 			String felhasználónév, String jelszó, Date születésnap, Szak szak) {
-		super(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap);
-		this.szak = szak;
-		felvettTantárgyak = new ArrayList<>();
-		felvettVizsgák = new ArrayList<>();
-		logger.trace("Új {} lett példányosítva: {}.", new Object[] {getClass().getName(), this});
+		this(nextId, vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, szak);
 	}
 
 	/**

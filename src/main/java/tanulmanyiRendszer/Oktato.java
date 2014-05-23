@@ -42,8 +42,7 @@ public class Oktato extends Felhasznalo {
 	 * @param fizetés Az oktató fizetése.
 	 */
 	public Oktato(int id, String vezetéknév, String keresztnév, String felhasználónév, String jelszó, Date születésnap, int fizetés) {
-		super(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap);
-		this.id = id;
+		super(id, vezetéknév, keresztnév, felhasználónév, jelszó, születésnap);
 		++nextId;
 		this.fizetés = fizetés;
 		logger.trace("Új {} lett példányosítva: {}.", new Object[] {getClass().getName(), this});

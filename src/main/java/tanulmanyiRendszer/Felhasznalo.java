@@ -10,6 +10,11 @@ import java.util.Date;
  */
 public abstract class Felhasznalo {
 	/**
+	 * A felhasználó id-je.
+	 */
+	private int id;
+	
+	/**
 	 * A felhasználó vezetékneve.
 	 */
 	private String vezetéknév;
@@ -37,20 +42,31 @@ public abstract class Felhasznalo {
 	/**
 	 * Példányosít egy {@link Felhasznalo} objektumot a megadott paraméterek alapján.
 	 * 
+	 * @param id A felhasználó id-je.
 	 * @param vezetéknév A felhasználó vezetékneve.
 	 * @param keresztnév A felhasználó keresztneve.
 	 * @param felhasználónév A felhasználó felhasználóneve.
 	 * @param jelszó A felhasználó jelszava.
 	 * @param születésnap A felasználó születésnapja.
 	 */
-	public Felhasznalo(String vezetéknév, String keresztnév, String felhasználónév,
+	public Felhasznalo(int id, String vezetéknév, String keresztnév, String felhasználónév,
 			String jelszó, Date születésnap) {
 		super();
+		this.id = id;
 		this.vezetéknév = vezetéknév;
 		this.keresztnév = keresztnév;
 		this.felhasználónév = felhasználónév;
 		this.jelszó = jelszó;
 		this.születésnap = születésnap;
+	}
+	
+	/**
+	 * Visszaadja a felhasználó {@link Felhasznalo#id}-jét.
+	 * 
+	 * @return Visszaadja a felhasználó {@link Felhasznalo#id}-jét.
+	 */
+	public int getId() {
+		return id;
 	}
 	
 	/**
