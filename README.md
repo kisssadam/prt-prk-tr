@@ -36,3 +36,8 @@ Az alapértelmezett felhasználó adatai
 Ezzel a felhasználóval el tudjuk érni a tanulmányi osztály, és innen kiindulva tudjuk használatba venni a programot.
 * Felhasználónév: admin
 * Jelszó: admin
+
+Adatbázissal kapcsolatos dolgok
+-------------------------------
+[Adatbázis séma](adatbazis_sema.pdf)
+[Adatbázist inicializáló sql fájl](tanulmanyi_rendszer.sql)
