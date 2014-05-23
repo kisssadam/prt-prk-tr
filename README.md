@@ -9,8 +9,8 @@ Ezek a részek a következőek:
 
 Mind a három résznek saját feladatai vannak, amit el tudnak végezni.
 
-A tanulmányi osztály feladatai:
--------------------------------
+A tanulmányi osztály feladatai
+------------------------------
 * Szakok létrehozása.
 * Hallgatók hozzáadása.
 * Oktatók hozzáadása.
@@ -19,20 +19,20 @@ A tanulmányi osztály feladatai:
 * Tantárgyak meghirdetése a jelenlegi félévre.
 * Gyakorlati csoportok hozzáadása egy meghirdetett tantárgyhoz.
 
-Az oktatók feladatai:
+Az oktatók feladatai
 --------------------
 * Aláírás beírása egy általa oktatott tantárgyra.
 * Vizsgaidőpontok meghirdetése.
 * Érdemjegy beírása a hallgatóknak.
 
-A hallgatók feladatai:
+A hallgatók feladatai
 ---------------------
 * Beiratkozás a jelenleg meghirdetett félévre.
 * Tantárgy felvétele gyakorlati csoporttal együtt.
 * Vizsgajelentkezés.
 
-Az alapértelmezett felhasználó adatai:
+Az alapértelmezett felhasználó adatai
 --------------------------------------
-Felhasználónév: admin
-        Jelszó: admin
 Ezzel a felhasználóval el tudjuk érni a tanulmányi osztály, és innen kiindulva tudjuk használatba venni a programot.
+* Felhasználónév: admin
+* Jelszó: admin
