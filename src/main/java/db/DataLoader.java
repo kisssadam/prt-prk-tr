@@ -33,6 +33,11 @@ public class DataLoader {
 	private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 	
 	/**
+	 * Az adatbázissal való kapcsolat.
+	 */
+	private static Connection conn;
+	
+	/**
 	 * Beolvassa az adatokat az adatbázisból.
 	 * 
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
@@ -40,6 +45,8 @@ public class DataLoader {
 	 */
 	public static void init() throws IOException, SQLException {
 		logger.info("Adatok betöltése az adatbázisból.");
+		
+		conn = ConnectionHelper.getConnection();
 		
 		initFelevLista();
 		initSzakLista();
@@ -56,9 +63,7 @@ public class DataLoader {
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
-	private static void initFelevLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
+	private static void initFelevLista() throws IOException, SQLException {		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery("SELECT id, szorg_eleje, szorg_vege, vizsg_eleje, vizsg_vege, aktualis_felev FROM prt_felev");
 		
@@ -85,8 +90,6 @@ public class DataLoader {
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
 	 */
 	private static void initSzakLista() throws SQLException, IOException {
-		Connection conn = ConnectionHelper.getConnection();
-		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery("SELECT id, nev, szint FROM prt_szak");
 		
@@ -113,9 +116,8 @@ public class DataLoader {
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
 	private static void initTantargyLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
-		PreparedStatement pstmt = conn.prepareStatement("SELECT id, tantargykod, nev, kredit, szak_id FROM prt_tantargy");
+		PreparedStatement pstmt = conn.prepareStatement(
+				"SELECT id, tantargykod, nev, kredit, szak_id FROM prt_tantargy");
 		ResultSet rset = pstmt.executeQuery();
 		
 		while (rset.next()) {
@@ -129,7 +131,8 @@ public class DataLoader {
 		rset.close();
 		pstmt.close();
 		
-		pstmt = conn.prepareStatement("SELECT elofeltetel_id FROM prt_tantargy_elofeltetelei WHERE tantargy_id = ?");
+		pstmt = conn.prepareStatement(
+				"SELECT elofeltetel_id FROM prt_tantargy_elofeltetelei WHERE tantargy_id = ?");
 		for (Tantargy tantargy : Kozpont.getTantárgyLista()) {
 			pstmt.setInt(1, tantargy.getId());
 			rset = pstmt.executeQuery();
@@ -147,9 +150,7 @@ public class DataLoader {
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
-	private static void initTanulmanyiOsztalyDolgozoLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
+	private static void initTanulmanyiOsztalyDolgozoLista() throws IOException, SQLException {		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery("SELECT id, vezeteknev, keresztnev, felhasznalonev, jelszo, szuletesnap FROM prt_tanulmanyi_osztaly");
 		
@@ -183,9 +184,7 @@ public class DataLoader {
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
-	private static void initOktatoLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
+	private static void initOktatoLista() throws IOException, SQLException {		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery("SELECT id, vezeteknev, keresztnev, felhasznalonev, jelszo, szuletesnap, fizetes FROM prt_oktato");
 		
