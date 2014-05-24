@@ -1,5 +1,7 @@
 package tanulmanyiRendszer;
 
+import static org.junit.Assert.assertEquals;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,7 +138,16 @@ public class Idopont {
 	}
 
 	/**
-	 * A {@link Napok#hashCode()}-ja, az óra és a perc alapján generál egy hashCode-ot.
+	 * Minden időpont hashCode-ja így néz ki:
+	 * {NAPOK}9{ÓRA}9{PERC}.
+	 * A napok 1, az órák és a percek 2 karakterpozíciót
+	 * foglalnak el, egymástól egy-egy 9-es számjeggyel
+	 * vannak elválasztva, ezáltal biztosítva azt, hogy
+	 * az osztály összes lehetséges példányára különböző
+	 * hashCode-ot adjon vissza, ha a példányok valamely
+	 * értéke különbözik egymástól.
+	 * 
+	 * Példa Hétfő 10:15 esetén: 1910915
 	 * 
 	 * @return Visszaadja az időpont hashCode-ját.
 	 */
