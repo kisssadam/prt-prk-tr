@@ -203,10 +203,18 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 				}
 				Oktato oktató = (Oktato) oktatóData[oktatoTable.getSelectedRow()][5];
 
-				Idopont előadásIdőpont = new Idopont(
-						időpontVálasztóPanel.getSelectedNap(),
-						időpontVálasztóPanel.getÓra(),
-						időpontVálasztóPanel.getPerc());
+				Idopont előadásIdőpont;
+				try {
+					előadásIdőpont = new Idopont(
+							időpontVálasztóPanel.getSelectedNap(),
+							időpontVálasztóPanel.getÓra(),
+							időpontVálasztóPanel.getPerc());
+				} catch (TanulmanyiRendszerKivetel e1) {
+					JOptionPane.showMessageDialog(contentPane,
+							e1.getMessage(),
+							"Hiba", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 
 				String előadásTerem = eloadasTeremField.getText();
 				if (előadásTerem.isEmpty()) {

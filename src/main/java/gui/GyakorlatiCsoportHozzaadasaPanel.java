@@ -263,9 +263,17 @@ public class GyakorlatiCsoportHozzaadasaPanel extends JPanel {
 				MeghirdetettTantargy meghirdetettTantárgy = (MeghirdetettTantargy) aktuálisanMeghirdetettTantárgyData[tantargyTable
 						.getSelectedRow()][7];
 
-				Idopont gyakorlatIdőpont = new Idopont(idopontValasztoPanel
-						.getSelectedNap(), idopontValasztoPanel.getÓra(),
-						idopontValasztoPanel.getPerc());
+				Idopont gyakorlatIdőpont;
+				try {
+					gyakorlatIdőpont = new Idopont(idopontValasztoPanel
+							.getSelectedNap(), idopontValasztoPanel.getÓra(),
+							idopontValasztoPanel.getPerc());
+				} catch (TanulmanyiRendszerKivetel e1) {
+					JOptionPane.showMessageDialog(contentPane,
+							e1.getMessage(),
+							"Hiba", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 
 				int numOfSelectedGyakorlatVezető = gyakorlatVezetőTable
 						.getSelectedRowCount();

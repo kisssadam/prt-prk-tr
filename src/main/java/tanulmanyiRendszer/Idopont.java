@@ -46,9 +46,13 @@ public class Idopont {
 	 * @param nap Az időpont napja.
 	 * @param óra Az időpont órája.
 	 * @param perc Az időpont perce.
+	 * @throws TanulmanyiRendszerKivetel Ha érvénytelen az időpont.
 	 */
-	public Idopont(Napok nap, int óra, int perc) {
+	public Idopont(Napok nap, int óra, int perc) throws TanulmanyiRendszerKivetel {
 		super();
+		if (nap == null || óra >= 24 || óra < 0 || perc >= 60 || perc < 0) {
+			throw new TanulmanyiRendszerKivetel("Érvénytelen időpont.");
+		}
 		this.nap = nap;
 		this.óra = óra;
 		this.perc = perc;
@@ -59,8 +63,9 @@ public class Idopont {
 	 * Ezt a konstruktort meghívva, az időpont perce 0 lesz.
 	 * @param nap Az időpont napja.
 	 * @param óra Az időpont órája.
+	 * @throws TanulmanyiRendszerKivetel Ha érvénytelen az időpont.
 	 */
-	public Idopont(Napok nap, int óra) {
+	public Idopont(Napok nap, int óra) throws TanulmanyiRendszerKivetel {
 		this(nap, óra, 0);
 	}
 
@@ -136,6 +141,24 @@ public class Idopont {
 	}
 
 	/**
+	 * Visszaadja a nap hashCode-ját.
+	 * 
+	 * @return Visszaadja a nap hashCode-ját.
+	 */
+	private int napHashCode(Napok nap) {
+		switch (nap) {
+		case Hétfő:		return 1;
+		case Kedd:		return 2;
+		case Szerda:	return 3;
+		case Csütörtök: return 4;
+		case Péntek:	return 5;
+		case Szombat:	return 6;
+		case Vasárnap:	return 7;
+		default:		return 0;
+		}
+	}
+	
+	/**
 	 * Minden időpont hashCode-ja így néz ki:
 	 * {NAPOK}9{ÓRA}9{PERC}.
 	 * A napok 1, az órák és a percek 2 karakterpozíciót
@@ -151,41 +174,11 @@ public class Idopont {
 	 */
 	@Override
 	public int hashCode() {
-		StringBuilder sb = new StringBuilder(7);
-		switch (this.nap) {
-		case Hétfő:
-			sb.append(1);
-			break;
-			
-		case Kedd:
-			sb.append(2);
-			break;
+		StringBuilder sb = new StringBuilder(7);		
 		
-		case Szerda:
-			sb.append(3);
-			break;
-			
-		case Csütörtök:
-			sb.append(4);
-			break;
-		
-		case Péntek:
-			sb.append(5);
-			break;
-		
-		case Szombat:
-			sb.append(6);
-			break;
-		
-		case Vasárnap:
-			sb.append(7);
-			break;
-			
-		default:
-			sb.append(0);
-			break;
-		}
-		
+		// a nap hashCode-ja.
+		sb.append(napHashCode(this.nap));
+
 		// nap - óra határolószám
 		sb.append("9");
 		
