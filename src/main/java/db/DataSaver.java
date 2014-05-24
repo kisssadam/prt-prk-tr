@@ -30,6 +30,11 @@ public class DataSaver {
 	private static final Logger logger = LoggerFactory.getLogger(DataSaver.class);
 	
 	/**
+	 * Az adatbázis kapcsolata.
+	 */
+	private static Connection conn;
+	
+	/**
 	 * Lementi a programban tárolt adatokat az adatbázisba.
 	 * 
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
@@ -37,6 +42,8 @@ public class DataSaver {
 	 */
 	public static void save() throws SQLException, IOException {
 		logger.info("Adatok mentése az adatbázisba.");
+		
+		conn = ConnectionHelper.getConnection();
 		
 		deleteDatasFrom("prt_tantargy_elofeltetelei");
 		deleteDatasFrom("prt_tantargy");
@@ -62,8 +69,6 @@ public class DataSaver {
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
 	private static void saveFelevLista() throws SQLException, IOException {
-		Connection conn = ConnectionHelper.getConnection();
-		
 		PreparedStatement pstmt = conn.prepareStatement("INSERT INTO prt_felev(id, szorg_eleje, szorg_vege, vizsg_eleje, vizsg_vege, aktualis_felev) VALUES(?,?,?,?,?,?)");
 		for (Felev felev : Kozpont.getFélévLista()) {
 			pstmt.setInt(1, felev.getId());
@@ -90,8 +95,6 @@ public class DataSaver {
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
 	private static void saveSzakLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
 		PreparedStatement pstmt = conn.prepareStatement("INSERT INTO prt_szak(id, nev, szint) VALUES(?,?,?)");
 		for (Szak szak : Kozpont.getSzakLista()) {
 			pstmt.setInt(1, szak.getId());
@@ -109,8 +112,6 @@ public class DataSaver {
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
 	private static void saveTantargyLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
 		PreparedStatement pstmt = conn.prepareStatement("INSERT INTO prt_tantargy(id, tantargykod, nev, kredit, szak_id) VALUES(?,?,?,?,?)");
 		for (Tantargy tantargy : Kozpont.getTantárgyLista()) {
 			pstmt.setInt(1, tantargy.getId());
@@ -141,8 +142,6 @@ public class DataSaver {
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
 	private static void saveTanulmanyiOsztalyDolgozoLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
-		
 		PreparedStatement pstmt = conn.prepareStatement("INSERT INTO prt_tanulmanyi_osztaly(id, vezeteknev, keresztnev, felhasznalonev, jelszo, szuletesnap) "
 														+ "VALUES(?,?,?,?,?,?)");
 		for (TanulmanyiOsztaly to : Kozpont.getTanulmányiOsztályDolgozóLista()) {
@@ -164,7 +163,6 @@ public class DataSaver {
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
 	 */
 	private static void saveOktatoLista() throws IOException, SQLException {
-		Connection conn = ConnectionHelper.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(
 				"INSERT INTO prt_oktato(id, vezeteknev, keresztnev, felhasznalonev, jelszo, szuletesnap, fizetes) VALUES(?,?,?,?,?,?,?)");
 		for (Oktato oktato : Kozpont.getOktatóLista()) {
