@@ -1,14 +1,22 @@
 package db;
 
+import org.slf4j.Logger;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.slf4j.LoggerFactory;
+
 /**
  * Az adatábizhoz való kapcsolódást segíti.
  */
 public class ConnectionHelper {	
+	/**
+	 * Ennek a segítségével lehet naplóüzeneteket létrehozni.
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(ConnectionHelper.class);
+	
 	/**
 	 * Az adatbázishoz való kapcsolódás url-je.
 	 */
@@ -44,6 +52,7 @@ public class ConnectionHelper {
 			synchronized (ConnectionHelper.class) {
 				if (conn == null) {
 					conn = DriverManager.getConnection(url, felhasználónév, jelszó);
+					logger.info("Új adatbázis kapcsolat jött létre.");
 				}
 			}
 		}
@@ -68,9 +77,11 @@ public class ConnectionHelper {
 	 */
 	public static void closeConnection() throws SQLException {
 		if (conn == null || conn.isClosed()) {
+			logger.info("Az adatbázissal való kapcsolat már korábban bezárásra került.");
 			return;
 		}
 		conn.close();
 		conn = null;
+		logger.info("Az adatbázissal való kapcsolat bezárásra került.");
 	}
 }
