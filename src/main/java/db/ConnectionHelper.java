@@ -35,7 +35,7 @@ public class ConnectionHelper {
 			synchronized (ConnectionHelper.class) {
 				if (conn == null || conn.isClosed()) {
 					Properties dbProps = new Properties();
-					dbProps.load(dbProps.getClass().getResourceAsStream("/dbconnection.properties"));
+					dbProps.load(ConnectionHelper.class.getResourceAsStream("/dbconnection.properties"));
 					
 					conn = DriverManager.getConnection(
 							dbProps.getProperty("url"),
