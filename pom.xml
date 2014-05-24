@@ -4,6 +4,7 @@
 	<groupId>hu.unideb.inf</groupId>
 	<artifactId>maven-prt-tr</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>Tanulmányi Rendszer</name>
 	<developers>
 		<developer>
 			<name>Kiss Sándor Ádám</name>
@@ -16,9 +17,9 @@
 			</roles>
 		</developer>
 	</developers>
-	<!-- még ezt is ki kell tölteni -->
-	<description>Tanulmányi Rendszer</description>
-	<!-- még assemblyt kell tudni csinálni -->
+	<description>Tanulmányi Rendszer - Ez a program egy olyan primitív tanulmányi rendszert valósít meg, 
+	ami három nagyobb részre van bontva. Ezek a részek a következőek: Hallgató, Oktató, Tanulmányi osztály. 
+	Mind a három résznek saját feladatai vannak, amit el tudnak végezni.</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -114,9 +115,9 @@
 							<mainClass>gui.MainFrame</mainClass>
 						</manifest>
 					</archive>
-				<descriptorRefs>
-					<descriptorRef>jar-with-dependencies</descriptorRef>
-				</descriptorRefs>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 			</plugin>
 		</plugins>
