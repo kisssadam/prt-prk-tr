@@ -142,12 +142,58 @@ public class Idopont {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + óra;
-		result = prime * result + perc;
-		result = prime * result + ((nap == null) ? 0 : nap.hashCode());
-		return result;
+		StringBuilder sb = new StringBuilder(7);
+		switch (this.nap) {
+		case Hétfő:
+			sb.append(1);
+			break;
+			
+		case Kedd:
+			sb.append(2);
+			break;
+		
+		case Szerda:
+			sb.append(3);
+			break;
+			
+		case Csütörtök:
+			sb.append(4);
+			break;
+		
+		case Péntek:
+			sb.append(5);
+			break;
+		
+		case Szombat:
+			sb.append(6);
+			break;
+		
+		case Vasárnap:
+			sb.append(7);
+			break;
+			
+		default:
+			sb.append(0);
+			break;
+		}
+		
+		// nap - óra határolószám
+		sb.append("9");
+		
+		if (this.óra / 10 == 0) {
+			sb.append(0);
+		}
+		sb.append(this.óra);
+		
+		// óra - perc határolószám
+		sb.append("9");
+		
+		if (this.perc / 10 == 0) {
+			sb.append(0);
+		}
+		sb.append(this.perc);
+		
+		return Integer.valueOf(sb.toString());
 	}
 
 	/**
