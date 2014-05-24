@@ -8,6 +8,6 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 *.log
-**/dbconnection.properties
+/src/main/resources/dbconnection.properties
 dbconnection.properties
 
