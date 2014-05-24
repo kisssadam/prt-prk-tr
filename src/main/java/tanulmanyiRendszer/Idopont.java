@@ -143,6 +143,7 @@ public class Idopont {
 	/**
 	 * Visszaadja a nap hashCode-ját.
 	 * 
+	 * @param nap Ennek a napnak lesz visszaadva a hashCode-ja.
 	 * @return Visszaadja a nap hashCode-ját.
 	 */
 	private int napHashCode(Napok nap) {
