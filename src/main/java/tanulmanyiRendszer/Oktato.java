@@ -41,7 +41,8 @@ public class Oktato extends Felhasznalo {
 	 * @param születésnap Az oktató születésnapja.
 	 * @param fizetés Az oktató fizetése.
 	 */
-	public Oktato(int id, String vezetéknév, String keresztnév, String felhasználónév, String jelszó, Date születésnap, int fizetés) {
+	public Oktato(int id, String vezetéknév, String keresztnév, String felhasználónév,
+			String jelszó, Date születésnap, int fizetés) {
 		super(id, vezetéknév, keresztnév, felhasználónév, jelszó, születésnap);
 		++nextId;
 		this.fizetés = fizetés;
@@ -56,7 +57,8 @@ public class Oktato extends Felhasznalo {
 	 * @param születésnap Az oktató születésnapja.
 	 * @param fizetés Az oktató fizetése.
 	 */
-	public Oktato(String vezetéknév, String keresztnév, String felhasználónév, String jelszó, Date születésnap, int fizetés) {
+	public Oktato(String vezetéknév, String keresztnév, String felhasználónév, String jelszó,
+			Date születésnap, int fizetés) {
 		this(nextId, vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, fizetés);
 	}
 

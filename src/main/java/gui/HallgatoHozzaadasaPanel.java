@@ -210,14 +210,13 @@ public class HallgatoHozzaadasaPanel extends JPanel {
 													"Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
 										} else {
 											Szak szak = (Szak) szakBox.getSelectedItem();
-											Hallgato hallgató = new Hallgato(vezeteknevField.getText(),
-													keresztnevField.getText(), felhasznalonevField
-															.getText(), String.valueOf(jelszoField
-															.getPassword()), datePicker.getDate(), szak);
 											TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont
 													.getBejelentkezettFelhasználó();
 											try {
-												to.hallgatóHozzáadása(hallgató);
+												to.hallgatóHozzáadása(vezeteknevField.getText(),
+														keresztnevField.getText(), felhasznalonevField
+														.getText(), String.valueOf(jelszoField
+														.getPassword()), datePicker.getDate(), szak);
 												vezeteknevField.setText("");
 												keresztnevField.setText("");
 												felhasznalonevField.setText("");

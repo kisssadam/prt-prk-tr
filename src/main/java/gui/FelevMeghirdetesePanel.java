@@ -228,15 +228,11 @@ public class FelevMeghirdetesePanel extends JPanel {
 							.getBejelentkezettFelhasználó();
 					
 					try {
-						Felev félév = new Felev(new Idoszak(szorgEleje, szorgVége),
-								new Idoszak(vizsgEleje, vizsgVége));
-						to.újFélév(félév);
+						to.újFélév(new Idoszak(szorgEleje, szorgVége),
+								new Idoszak(vizsgEleje, vizsgVége), chckbxLegyenEzAz.isSelected());
 						defaultTableModel.addRow(new String[] {
 								sdf.format(szorgEleje), sdf.format(szorgVége),
 								sdf.format(vizsgEleje), sdf.format(vizsgVége) });
-						if (chckbxLegyenEzAz.isSelected()) {
-							to.setAktuálisFélév(félév);
-						}
 					} catch (TanulmanyiRendszerKivetel ex) {
 						JOptionPane.showMessageDialog(contentPane,
 								ex.getMessage(), "Figyelmeztetés",

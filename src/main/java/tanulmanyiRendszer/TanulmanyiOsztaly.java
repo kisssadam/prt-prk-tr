@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tanulmanyiRendszer.Szak.Szint;
+
 /**
  * A tanulmányi osztályhoz tartozó feladatköröket tartalmazza.
  * @author adam
@@ -55,40 +57,46 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 	public void setAktuálisFélév(Felev aktuálisFélév) {
 		félévLezárása();
 		Kozpont.setAktuálisFélév(aktuálisFélév);
-		logger.debug("Új aktuális félév: {}", aktuálisFélév);
+		logger.info("Új aktuális félév: {}", aktuálisFélév);
 	}
 
 	/**
 	 * Hozzáad a központhoz, egy új félévet.
 	 * 
-	 * @param félév Az új félév ami hozzá lesz adva.
+	 * @param szorgalmiIdőszak A félév szorgalmi időszakja.
+	 * @param vizsgaIdőszak A félév vizsgaidőszakja.
 	 * @param legyenAktuálisFélév Ha <code>true</code>, akkor ez lesz
 	 * az aktuális félév.
+	 * @return Visszaadja a hozzáadott félévet.
 	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül felvenni az új félévet.
 	 */
-	public void újFélév(Felev félév, boolean legyenAktuálisFélév)
+	public Felev újFélév(Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak, boolean legyenAktuálisFélév)
 			throws TanulmanyiRendszerKivetel {
-		újFélév(félév);
-		if (legyenAktuálisFélév) {
-			Kozpont.setAktuálisFélév(félév);
+		List<Felev> felevek = Kozpont.getFélévLista();
+		Felev felev = new Felev(szorgalmiIdőszak, vizsgaIdőszak);
+		if (felevek.contains(felev)) {
+			logger.warn("Már van ilyen félév: {}.", felev);
+			throw new TanulmanyiRendszerKivetel("Már van ilyen félév!");
 		}
+		felevek.add(felev);
+		logger.info("Új félév lett hozzáadva: {}.", felev);
+		if (legyenAktuálisFélév) {
+			setAktuálisFélév(felev);
+		}
+		return felev;
 	}
 
 	/**
 	 * Hozzáad a központhoz, egy új félévet, de nem lesz ez az
 	 * aktuális félév.
 	 * 
-	 * @param félév Az új félév ami hozzá lesz adva.
+	 * @param szorgalmiIdőszak A félév szorgalmi időszakja.
+	 * @param vizsgaIdőszak A félév vizsgaidőszakja.
+	 * @return Visszaadja a hozzáadott félévet.
 	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül felvenni az új félévet.
 	 */
-	public void újFélév(Felev félév) throws TanulmanyiRendszerKivetel {
-		List<Felev> félévLista = Kozpont.getFélévLista();
-		if (félévLista.contains(félév)) {
-			logger.warn("Már van ilyen félév meghirdetve: {}.", félév);
-			throw new TanulmanyiRendszerKivetel("Már van ilyen félév meghirdetve!");
-		} else {
-			félévLista.add(félév);
-		}
+	public Felev újFélév(Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak) throws TanulmanyiRendszerKivetel {
+		return újFélév(szorgalmiIdőszak, vizsgaIdőszak, false);
 	}
 
 	/**
@@ -105,54 +113,77 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 	}
 
 	/**
-	 * Hozzáad egy oktató a központhoz.
+	 * Hozzáad egy oktatót a központhoz.
 	 * 
-	 * @param oktató Ez az oktató lesz hozzáadva a központhoz.
-	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni a központhoz.
+	 * @param vezetéknév Az oktató vezetékneve.
+	 * @param keresztnév Az oktató keresztneve.
+	 * @param felhasználónév Az oktató felhasználóneve.
+	 * @param jelszó Az oktató jelszava.
+	 * @param születésnap Az oktató születésnapja.
+	 * @param fizetés Az oktató fizetése.
+	 * @return Visszadja a hozzáadott oktatót.
+	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni az oktatót.
 	 */
-	public void oktatóHozzáadása(Oktato oktató) throws TanulmanyiRendszerKivetel {
-		List<Oktato> oktatóLista = Kozpont.getOktatóLista();
+	public Oktato oktatóHozzáadása(String vezetéknév, String keresztnév, String felhasználónév,
+			String jelszó, Date születésnap, int fizetés) throws TanulmanyiRendszerKivetel {
+		List<Oktato> oktatok = Kozpont.getOktatóLista();
 
-		if (oktatóLista.contains(oktató)) {
-			logger.warn("Már van ilyen oktató: {}", oktató);
+		Oktato oktato = new Oktato(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, fizetés);
+		if (oktatok.contains(oktato)) {
+			logger.warn("Már van ilyen oktató: {}", oktato);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen oktató!");
-		} else {
-			oktatóLista.add(oktató);
-			logger.info("Új oktató lett hozzáadva: {}", oktató);
 		}
+		oktatok.add(oktato);
+		logger.info("Új oktató lett hozzáadva: {}", oktato);
+		return oktato;
 	}
 
 	/**
 	 * Hozzáad egy szakot a központhoz.
 	 * 
-	 * @param szak Ez a szak lesz hozzáadva a központhoz.
-	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni a szakot a központhoz.
+	 * @param név A szak neve.
+	 * @param szint A szak szintje.
+	 * @return Visszaadja a hozzáadott szakot.
+	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni a szakot.
 	 */
-	public void szakHozzáadása(Szak szak) throws TanulmanyiRendszerKivetel {
+	public Szak szakHozzáadása(String név, Szint szint) throws TanulmanyiRendszerKivetel {
 		List<Szak> szakLista = Kozpont.getSzakLista();
+		
+		Szak szak = new Szak(név, szint);
 		if (szakLista.contains(szak)) {
 			logger.warn("Már van ilyen {} szak, ezért nem lehet hozzáadni!.", szak);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen szak!");
-		} else {
-			szakLista.add(szak);
-			logger.info("Új szak lett felvéve: {}.", szak);
 		}
+		szakLista.add(szak);
+		logger.info("Új szak lett felvéve: {}.", szak);
+		return szak;
 	}
 
 	/**
 	 * Hozzáad egy hallgatót a központhoz.
 	 * 
-	 * @param hallgató Ez a hallgatót lesz hozzáadva a központhoz.
-	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni a hallgatót a központhoz.
+	 * @param vezetéknév A hallgató vezetékneve.
+	 * @param keresztnév A hallgató keresztneve.
+	 * @param felhasználónév A hallgató felhasználóneve.
+	 * @param jelszó A hallgató jelszava.
+	 * @param születésnap A hallgató születésnapja.
+	 * @param szak A hallgató szakja.
+	 * @return Visszaadja a hozzáadott hallgatót.
+	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni a hallgatót.
 	 */
-	public void hallgatóHozzáadása(Hallgato hallgató)
-			throws TanulmanyiRendszerKivetel {
+	public Hallgato hallgatóHozzáadása(String vezetéknév, String keresztnév,
+			String felhasználónév, String jelszó, Date születésnap, Szak szak) throws TanulmanyiRendszerKivetel {
 		List<Hallgato> hallgatóLista = Kozpont.getHallgatóLista();
-		if (hallgatóLista.contains(hallgató)) {
+		
+		Hallgato hallgato = new Hallgato(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, szak);
+		if (hallgatóLista.contains(hallgato)) {
+			logger.warn("Már van ilyen hallgató: {}.", hallgato);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen hallgató!");
-		} else {
-			hallgatóLista.add(hallgató);
 		}
+		
+		hallgatóLista.add(hallgato);
+		logger.info("Új hallgató lett hozzáadva: {}.", hallgato);
+		return hallgato;
 	}
 	
 	
@@ -164,47 +195,70 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 	 */
 	public void tantárgyHozzáadása(Tantargy tantargy) throws TanulmanyiRendszerKivetel {
 		List<Tantargy> tantargyak = Kozpont.getTantárgyLista();
-		if (tantargyak.contains(tantargy)) {
+		
+		if (tantargy == null) {
+			logger.warn("null-t nem lehet hozzáadni a tantárgyak közé.");
+			throw new TanulmanyiRendszerKivetel("null-t nem lehet hozzáadni a tantárgyak közé!");
+		} else if (tantargyak.contains(tantargy)) {
 			logger.warn("Már van ilyen {} tantárgy, ezért nem lehet hozzáadni!", tantargy);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen tantárgy!");
 		} else {
 			tantargyak.add(tantargy);
+			logger.info("Új tantárgy lett hozzáadva: {}.", tantargy);
 		}
 	}
 
 	/**
-	 * Meghirdet egy tantárgyat az aktuális félévben.
+	 * Meghirdet egy tantárgyat a paraméterül kapott adatok alapján.
 	 * 
-	 * @param meghirdetettTantárgy Ez a tantárgy lesz a meghirdetett tantárgy.
-	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül meghirdetni a tantárgyat.
+	 * @param tantárgy Ez a tantárgy lesz meghirdetve.
+	 * @param előadó Ez lesz a tantárgy előadója.
+	 * @param aktuálisFélév Ebben a félévben lesz meghirdetve a tantárgy.
+	 * @param előadásIdőpont Ebben az időpontban lesz az előadás.
+	 * @param előadásTerem Ebben a teremben lesz az előadás.
+	 * @return Visszaadja a meghirdetett tantárgyat.
+	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül meghirdetni a tárgyat.
 	 */
-	public void tantárgyMeghirdetése(MeghirdetettTantargy meghirdetettTantárgy)
+	public MeghirdetettTantargy tantárgyMeghirdetése(Tantargy tantárgy, Oktato előadó,
+			Felev aktuálisFélév, Idopont előadásIdőpont, String előadásTerem)
 			throws TanulmanyiRendszerKivetel {
-		if (Kozpont.getMeghirdetettTantárgyLista().contains(meghirdetettTantárgy)) {
+		
+		MeghirdetettTantargy mt = new MeghirdetettTantargy(
+				tantárgy, előadó, aktuálisFélév, előadásIdőpont, előadásTerem);
+		
+		if (Kozpont.getMeghirdetettTantárgyLista().contains(mt)) {
+			logger.warn("Már van ilyen meghirdetett tantárgy: {}.", mt);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen meghirdetett tantárgy!");
-		} else {
-			Kozpont.getMeghirdetettTantárgyLista().add(meghirdetettTantárgy);
-			logger.debug("Új tantárgy lett meghirdetve: {}", meghirdetettTantárgy);
 		}
+		Kozpont.getMeghirdetettTantárgyLista().add(mt);
+		logger.info("Új tantárgy lett meghirdetve: {}", mt);
+		return mt;
 	}
 
 	/**
-	 * Hozzáad egy gyakorlati csoportot a paraméterül kapott
-	 * meghirdetett tantárgyhoz.
+	 * Hozzáad egy gyakorlati csoportot a paraméterül kapott adatok alapján.
 	 * 
-	 * @param meghirdetettTantargy Ehez a tantárgyhoz lesz hozzáadva a gyakorlati csoport.
-	 * @param gyakorlatiCsoport	Ez a gyakorlati csoport lesz hozzáadva a tantárgyhoz.
-	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül a gyakorlati csoport hozzáadása.
+	 * @param meghirdetettTantargy Ehez a tárgyhoz lesz hozzáadva a gyakorlati csoport.
+	 * @param gyakorlatvezető Ez lesz a gyakorlati csoport vezetője.
+	 * @param terem Ebben a teremben lesz megtartva a gyakorlati óra.
+	 * @param időpont Ebben az időpontban lesz megtartva a gyakorlati óra.
+	 * @return Visszaadja a hozzáadott gyakorlati csoportot.
+	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni a gyakorlati csoportot.
 	 */
-	public void gyakorlatiCsoportHozzáadása(MeghirdetettTantargy meghirdetettTantargy, GyakorlatiCsoport gyakorlatiCsoport)
+	public GyakorlatiCsoport gyakorlatiCsoportHozzáadása(
+			MeghirdetettTantargy meghirdetettTantargy, Oktato gyakorlatvezető, String terem,
+			Idopont időpont)
 			throws TanulmanyiRendszerKivetel {
 		List<GyakorlatiCsoport> gyakorlatiCsoportok = meghirdetettTantargy.getGyakorlatiCsoportok();
+		
+		GyakorlatiCsoport gyakorlatiCsoport = new GyakorlatiCsoport(gyakorlatvezető, terem, időpont);
 		if (gyakorlatiCsoportok.contains(gyakorlatiCsoport)) {
+			logger.warn("Már van ilyen gyakorlati csoport: {}.", gyakorlatiCsoport);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen gyakorlati csoport!");
-		} else {
-			gyakorlatiCsoportok.add(gyakorlatiCsoport);
-			logger.debug("Új gyakorlati csoport lett hozzáadva: {}",gyakorlatiCsoport);
 		}
+		gyakorlatiCsoportok.add(gyakorlatiCsoport);
+		logger.info("Új gyakorlati csoport lett hozzáadva: {}",gyakorlatiCsoport);
+		return gyakorlatiCsoport;
 	}
 	
 }

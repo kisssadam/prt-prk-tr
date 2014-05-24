@@ -41,8 +41,9 @@ import java.awt.event.ActionEvent;
 /**
  * Lehetővé teszi a {@link TanulmanyiOsztaly} számára, hogy hozzáadjon egy
  * {@link GyakorlatiCsoport}-ot egy {@link MeghirdetettTantargy}-hoz.
+ * 
  * @author adam
- *
+ * 
  */
 public class GyakorlatiCsoportHozzaadasaPanel extends JPanel {
 
@@ -269,8 +270,7 @@ public class GyakorlatiCsoportHozzaadasaPanel extends JPanel {
 							.getSelectedNap(), idopontValasztoPanel.getÓra(),
 							idopontValasztoPanel.getPerc());
 				} catch (TanulmanyiRendszerKivetel e1) {
-					JOptionPane.showMessageDialog(contentPane,
-							e1.getMessage(),
+					JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
 							"Hiba", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -297,15 +297,15 @@ public class GyakorlatiCsoportHozzaadasaPanel extends JPanel {
 					return;
 				}
 
-				GyakorlatiCsoport gyakorlatiCsoport = new GyakorlatiCsoport(
-						(Oktato) gyakorlatvezetők[gyakorlatVezetőTable
-								.getSelectedRow()][5], terem, gyakorlatIdőpont);
-
 				TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont
 						.getBejelentkezettFelhasználó();
 				try {
-					to.gyakorlatiCsoportHozzáadása(meghirdetettTantárgy,
-							gyakorlatiCsoport);
+					GyakorlatiCsoport gyakorlatiCsoport = to
+							.gyakorlatiCsoportHozzáadása(
+									meghirdetettTantárgy,
+									(Oktato) gyakorlatvezetők[gyakorlatVezetőTable
+											.getSelectedRow()][5], terem,
+									gyakorlatIdőpont);
 
 					Oktato gyakorlatVezető = gyakorlatiCsoport
 							.getGyakorlatvezető();

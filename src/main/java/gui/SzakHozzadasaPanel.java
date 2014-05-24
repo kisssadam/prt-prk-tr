@@ -141,22 +141,20 @@ public class SzakHozzadasaPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String szakNév = nevField.getText();
-				if (!szakNév.equals("")) {
-					Szak szak = new Szak(szakNév, rdbtnAlapkpzsbsc.isSelected() ? Szint.BSc : Szint.MSc);
-
-					TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont.getBejelentkezettFelhasználó();
-					try {
-						to.szakHozzáadása(szak);
-						nevField.setText("");
-						szakListazoPanel.getSzakListazoTableModel().addRow(new Object[] {szak.getNév(), szak.getSzint()});
-						szakListazoPanel.getMegjelenitettSzakok().add(szak);
-						contentPane.validate();
-					} catch (TanulmanyiRendszerKivetel ex) {
-						JOptionPane.showMessageDialog(contentPane, ex.getMessage(), "Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
-						nevField.setText("");
-					}
-				} else {
+				if (szakNév.isEmpty()) {
 					JOptionPane.showMessageDialog(contentPane, "Meg kell adnod egy szaknak a nevét!", "Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
+					nevField.setText("");
+					return;
+				}
+				TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont.getBejelentkezettFelhasználó();
+				try {
+					Szak szak = to.szakHozzáadása(szakNév, rdbtnAlapkpzsbsc.isSelected() ? Szint.BSc : Szint.MSc);
+					nevField.setText("");
+					szakListazoPanel.getSzakListazoTableModel().addRow(new Object[] {szak.getNév(), szak.getSzint()});
+					szakListazoPanel.getMegjelenitettSzakok().add(szak);
+					contentPane.validate();
+				} catch (TanulmanyiRendszerKivetel ex) {
+					JOptionPane.showMessageDialog(contentPane, ex.getMessage(), "Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
 					nevField.setText("");
 				}
 			}

@@ -31,7 +31,6 @@ import javax.swing.AbstractButton;
 import tanulmanyiRendszer.Felev;
 import tanulmanyiRendszer.Idopont;
 import tanulmanyiRendszer.Kozpont;
-import tanulmanyiRendszer.MeghirdetettTantargy;
 import tanulmanyiRendszer.Oktato;
 import tanulmanyiRendszer.Tantargy;
 import tanulmanyiRendszer.TanulmanyiOsztaly;
@@ -229,9 +228,8 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 				}
 
 				TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont.getBejelentkezettFelhasználó();
-				MeghirdetettTantargy meghirdetettTantárgy = new MeghirdetettTantargy(tantargy, oktató, aktuálisFélév, előadásIdőpont, előadásTerem);
 				try {
-					to.tantárgyMeghirdetése(meghirdetettTantárgy);
+					to.tantárgyMeghirdetése(tantargy, oktató, aktuálisFélév, előadásIdőpont, előadásTerem);
 				} catch (TanulmanyiRendszerKivetel ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
 					return;

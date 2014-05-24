@@ -33,9 +33,11 @@ import java.awt.event.ActionEvent;
 import java.util.Date;
 
 /**
- * Lehetővé teszi a {@link TanulmanyiOsztaly} számára, hogy új {@link Oktato}-t adjon hozzá.
+ * Lehetővé teszi a {@link TanulmanyiOsztaly} számára, hogy új {@link Oktato}-t
+ * adjon hozzá.
+ * 
  * @author adam
- *
+ * 
  */
 public class OktatoHozzaadasaPanel extends JPanel {
 	/**
@@ -58,20 +60,19 @@ public class OktatoHozzaadasaPanel extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0,
-				Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
-				JLabel lblOktatHozzadsa = new JLabel("Oktató hozzáadása");
-				lblOktatHozzadsa.setFont(new Font("Dialog", Font.BOLD, 14));
-				GridBagConstraints gbc_lblOktatHozzadsa = new GridBagConstraints();
-				gbc_lblOktatHozzadsa.gridwidth = 2;
-				gbc_lblOktatHozzadsa.insets = new Insets(0, 0, 5, 5);
-				gbc_lblOktatHozzadsa.gridx = 0;
-				gbc_lblOktatHozzadsa.gridy = 0;
-				add(lblOktatHozzadsa, gbc_lblOktatHozzadsa);
+
+		JLabel lblOktatHozzadsa = new JLabel("Oktató hozzáadása");
+		lblOktatHozzadsa.setFont(new Font("Dialog", Font.BOLD, 14));
+		GridBagConstraints gbc_lblOktatHozzadsa = new GridBagConstraints();
+		gbc_lblOktatHozzadsa.gridwidth = 2;
+		gbc_lblOktatHozzadsa.insets = new Insets(0, 0, 5, 5);
+		gbc_lblOktatHozzadsa.gridx = 0;
+		gbc_lblOktatHozzadsa.gridy = 0;
+		add(lblOktatHozzadsa, gbc_lblOktatHozzadsa);
 
 		JLabel lblVezetknv = new JLabel("Vezetéknév:");
 		GridBagConstraints gbc_lblVezetknv = new GridBagConstraints();
@@ -209,14 +210,15 @@ public class OktatoHozzaadasaPanel extends JPanel {
 							"Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
 				} else {
 					try {
-						Oktato oktató = new Oktato(vezeteknevField.getText(),
-								keresztnevField.getText(), felhasznalonevField
-										.getText(), String.valueOf(jelszoField
-										.getPassword()), datePicker.getDate(),
-								Integer.parseInt(fizetesField.getText()));
+
 						TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont
 								.getBejelentkezettFelhasználó();
-						to.oktatóHozzáadása(oktató);
+						to.oktatóHozzáadása(vezeteknevField.getText(),
+								keresztnevField.getText(),
+								felhasznalonevField.getText(),
+								String.valueOf(jelszoField.getPassword()),
+								datePicker.getDate(),
+								Integer.parseInt(fizetesField.getText()));
 						vezeteknevField.setText("");
 						keresztnevField.setText("");
 						felhasznalonevField.setText("");
