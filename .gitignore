@@ -9,4 +9,5 @@ pom.xml.next
 release.properties
 *.log
 **/dbconnection.properties
+dbconnection.properties
 
