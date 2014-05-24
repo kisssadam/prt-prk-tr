@@ -39,9 +39,15 @@ public class Felev implements Comparable<Felev> {
 	 * @param id A félév id-je.
 	 * @param szorgalmiIdőszak A félév szorgalmi időszakja.
 	 * @param vizsgaIdőszak A félév vizsga időszakja.
+	 * @throws TanulmanyiRendszerKivetel Ha a szorgalmi időszak a vizsgaidőszak után van.
 	 */
-	public Felev(int id, Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak) {
+	public Felev(int id, Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak) throws TanulmanyiRendszerKivetel {
 		super();
+		if (szorgalmiIdőszak.getVége().after(vizsgaIdőszak.getEleje())) {
+			logger.warn("A szorgalmi időszaknak hamarabb kell lennie, mint a vizsga időszaknak.");
+			throw new TanulmanyiRendszerKivetel(
+					"A szorgalmi időszaknak hamrabb kell lennie, mint a vizsga időszaknak.");
+		}
 		this.szorgalmiIdőszak = szorgalmiIdőszak;
 		this.vizsgaIdőszak = vizsgaIdőszak;
 		this.id = id;
@@ -52,8 +58,9 @@ public class Felev implements Comparable<Felev> {
 	/**
 	 * @param szorgalmiIdőszak A félév szorgalmi időszakja.
 	 * @param vizsgaIdőszak A félév vizsga időszakja.
+	 * @throws TanulmanyiRendszerKivetel  Ha a szorgalmi időszak a vizsga időszak után van.
 	 */
-	public Felev(Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak) {
+	public Felev(Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak) throws TanulmanyiRendszerKivetel {
 		this(nextId++, szorgalmiIdőszak, vizsgaIdőszak);
 	}
 

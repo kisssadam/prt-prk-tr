@@ -224,11 +224,12 @@ public class FelevMeghirdetesePanel extends JPanel {
 							"Az összes mező kitöltése kötelező!",
 							"Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
 				} else {
-					Felev félév = new Felev(new Idoszak(szorgEleje, szorgVége),
-							new Idoszak(vizsgEleje, vizsgVége));
 					TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont
 							.getBejelentkezettFelhasználó();
+					
 					try {
+						Felev félév = new Felev(new Idoszak(szorgEleje, szorgVége),
+								new Idoszak(vizsgEleje, vizsgVége));
 						to.újFélév(félév);
 						defaultTableModel.addRow(new String[] {
 								sdf.format(szorgEleje), sdf.format(szorgVége),

@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 import db.DataLoader;
 import db.DataSaver;
 import tanulmanyiRendszer.Kozpont;
+import tanulmanyiRendszer.TanulmanyiRendszerKivetel;
 
 /**
  * A program elindulása során ez lesz a fő keret, ami tartalmazni fogja a többi panelt.
@@ -49,6 +50,9 @@ public class MainFrame extends JFrame {
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (TanulmanyiRendszerKivetel e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		EventQueue.invokeLater(new Runnable() {

@@ -19,6 +19,7 @@ import tanulmanyiRendszer.Szak;
 import tanulmanyiRendszer.Szak.Szint;
 import tanulmanyiRendszer.Tantargy;
 import tanulmanyiRendszer.TanulmanyiOsztaly;
+import tanulmanyiRendszer.TanulmanyiRendszerKivetel;
 
 /**
  * Az adatbázisból való beolvasást segíti.
@@ -42,8 +43,9 @@ public class DataLoader {
 	 * 
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
+	 * @throws TanulmanyiRendszerKivetel Ha az időszakokat nem sikerül példányosítania
 	 */
-	public static void init() throws IOException, SQLException {
+	public static void init() throws IOException, SQLException, TanulmanyiRendszerKivetel {
 		logger.info("Adatok betöltése az adatbázisból.");
 		
 		conn = ConnectionHelper.getConnection();
@@ -62,8 +64,9 @@ public class DataLoader {
 	 * 
 	 * @throws IOException ha nem tud kapcsolódni az adatbázishoz.
 	 * @throws SQLException ha egy adatbázisbeli hiba adódik.
+	 * @throws TanulmanyiRendszerKivetel Ha az időszakokat nem tudja példányosítani. 
 	 */
-	private static void initFelevLista() throws IOException, SQLException {		
+	private static void initFelevLista() throws IOException, SQLException, TanulmanyiRendszerKivetel {		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery("SELECT id, szorg_eleje, szorg_vege, vizsg_eleje, vizsg_vege, aktualis_felev FROM prt_felev");
 		

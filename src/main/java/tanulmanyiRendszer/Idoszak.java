@@ -31,9 +31,14 @@ public class Idoszak implements Comparable<Idoszak> {
 	/**
 	 * @param eleje Az időszak eleje.
 	 * @param vége Az időszak vége.
+	 * @throws TanulmanyiRendszerKivetel Ha az eleje később van, mint a vége.
 	 */
-	public Idoszak(Date eleje, Date vége) {
+	public Idoszak(Date eleje, Date vége) throws TanulmanyiRendszerKivetel {
 		super();
+		if (eleje.after(vége)) {
+			logger.warn("Az időszak elejének hamarabb kell lennie a végénél!");
+			throw new TanulmanyiRendszerKivetel("Az időszak elejének hamarabb kell lennie a végénél!");
+		}
 		this.eleje = eleje;
 		this.vége = vége;
 		logger.trace("Új {} lett példányosítva: {}.", new Object[] {getClass().getName(), this});
