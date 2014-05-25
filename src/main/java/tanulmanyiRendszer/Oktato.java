@@ -11,12 +11,7 @@ import org.slf4j.LoggerFactory;
  * @author adam
  *
  */
-public class Oktato extends Felhasznalo {
-	/**
-	 * Az oktató id-je.
-	 */
-	private int id;
-	
+public class Oktato extends Felhasznalo {	
 	/**
 	 * Az oktató fizetése.
 	 */
@@ -107,15 +102,6 @@ public class Oktato extends Felhasznalo {
 		meghirdetettVizsgák.add(vizsga);
 		logger.info("Új {} vizsga lett hozzáadva a {} tantárgyhoz.", new Object[] {vizsga, meghirdetettTantargy});
 		return;
-	}
-	
-	/**
-	 * Visszaadja az oktató id-jét.
-	 * 
-	 * @return Visszaadja az oktató id-jét.
-	 */
-	public int getId() {
-		return id;
 	}
 
 	/**

@@ -129,6 +129,7 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 		List<Oktato> oktatok = Kozpont.getOktatóLista();
 
 		Oktato oktato = new Oktato(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, fizetés);
+		
 		if (oktatok.contains(oktato)) {
 			logger.warn("Már van ilyen oktató: {}", oktato);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen oktató!");

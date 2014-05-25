@@ -96,7 +96,6 @@ public abstract class Kozpont {
 		meghirdetettVizsgák = new ArrayList<>();
 
 		tanulmányiOsztályDolgozóLista.add(new TanulmanyiOsztaly("Keresztnév", "Vezetéknév", "admin", "admin", new Date()));
-		oktatóLista.add(new Oktato("Kollár", "Lajos", "kollarl", "kollarl", new Date(0), 450000));
 	}
 
 	/**
