@@ -42,7 +42,10 @@ public class Felev implements Comparable<Felev> {
 	 * @throws TanulmanyiRendszerKivetel Ha a szorgalmi időszak a vizsgaidőszak után van.
 	 */
 	public Felev(int id, Idoszak szorgalmiIdőszak, Idoszak vizsgaIdőszak) throws TanulmanyiRendszerKivetel {
-		super();
+		if (szorgalmiIdőszak == null || vizsgaIdőszak == null) {
+			logger.warn("Az időszak nem tartalmazhat null értéket.");
+			throw new TanulmanyiRendszerKivetel("Az időszak nem tartalmazhat null értéket.");
+		}
 		if (szorgalmiIdőszak.getVége().after(vizsgaIdőszak.getEleje())) {
 			logger.warn("A szorgalmi időszaknak hamarabb kell lennie, mint a vizsga időszaknak.");
 			throw new TanulmanyiRendszerKivetel(
@@ -114,11 +117,8 @@ public class Felev implements Comparable<Felev> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((szorgalmiIdőszak == null) ? 0 : szorgalmiIdőszak.hashCode());
-		result = prime * result
-				+ ((vizsgaIdőszak == null) ? 0 : vizsgaIdőszak.hashCode());
+		result = prime * result + szorgalmiIdőszak.hashCode();
+		result = prime * result + vizsgaIdőszak.hashCode();
 		return result;
 	}
 
@@ -140,18 +140,10 @@ public class Felev implements Comparable<Felev> {
 			return false;
 		}
 		Felev other = (Felev) obj;
-		if (szorgalmiIdőszak == null) {
-			if (other.szorgalmiIdőszak != null) {
-				return false;
-			}
-		} else if (!szorgalmiIdőszak.equals(other.szorgalmiIdőszak)) {
+		if (!szorgalmiIdőszak.equals(other.szorgalmiIdőszak)) {
 			return false;
 		}
-		if (vizsgaIdőszak == null) {
-			if (other.vizsgaIdőszak != null) {
-				return false;
-			}
-		} else if (!vizsgaIdőszak.equals(other.vizsgaIdőszak)) {
+		if (!vizsgaIdőszak.equals(other.vizsgaIdőszak)) {
 			return false;
 		}
 		return true;

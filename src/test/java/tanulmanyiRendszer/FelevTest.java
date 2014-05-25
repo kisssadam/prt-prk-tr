@@ -46,6 +46,22 @@ public class FelevTest {
 		fail("El kellett volna buknia.");
 	}
 	
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void konstruktorTest4() throws TanulmanyiRendszerKivetel {
+		new Felev(null, vizsga2);
+	}
+	
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void konstruktorTest5() throws TanulmanyiRendszerKivetel {
+		new Felev(szorgalmi1, null);
+	}
+	
+	@Test
+	public void getIdTest() throws TanulmanyiRendszerKivetel {
+		Felev felev = new Felev(0, szorgalmi1, vizsga2);
+		assertEquals(0, felev.getId());
+	}
+	
 	@Test
 	public void aktualisFelevTest() throws TanulmanyiRendszerKivetel {
 		Felev felev = new Felev(szorgalmi1, vizsga2);
@@ -67,6 +83,7 @@ public class FelevTest {
 		assertEquals(egyik, masik);
 		assertNotEquals(egyik, harmadik);
 		assertNotEquals(egyik, null);
+		assertNotEquals(egyik, new Date(0));
 	}
 	
 	@Test

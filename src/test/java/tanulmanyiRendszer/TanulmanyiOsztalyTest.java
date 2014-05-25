@@ -22,12 +22,7 @@ public class TanulmanyiOsztalyTest {
 
 	@Before
 	public void init() {
-		to.félévLezárása();
-		Kozpont.getFélévLista().clear();
-		Kozpont.getOktatóLista().clear();
-		Kozpont.getHallgatóLista().clear();
-		Kozpont.getTantárgyLista().clear();
-		Kozpont.getMeghirdetettTantárgyLista().clear();
+		Kozpont.init();
 	}
 
 	@Test(expected = TanulmanyiRendszerKivetel.class)
@@ -37,43 +32,56 @@ public class TanulmanyiOsztalyTest {
 		assertEquals(true, Kozpont.getFélévLista().contains(felev));
 		to.újFélév(felev.getSzorgalmiIdőszak(), felev.getVizsgaIdőszak(), true);
 	}
-	
+
 	@Test
 	public void ujFelevTest2() throws TanulmanyiRendszerKivetel {
-		to.újFélév(new Idoszak(new Date(0), new Date(1)),
-				new Idoszak(new Date(2), new Date(3)), true);
+		to.újFélév(new Idoszak(new Date(0), new Date(1)), new Idoszak(new Date(
+				2), new Date(3)), true);
+	}
+
+	@Test
+	public void felevLezarasaTest() throws TanulmanyiRendszerKivetel {
+		to.újFélév(new Idoszak(new Date(0), new Date(1)), new Idoszak(new Date(
+				2), new Date(3)), true);
+		Hallgato hallgato = to.hallgatóHozzáadása("hallgato", "tamás", "ht", "pw",
+				new Date(0), new Szak("pti", Szint.BSc));
+		hallgato.beiratkozás();
+		to.félévLezárása();
 	}
 
 	@Test
 	public void oktatoHozzaadasaTest1() throws TanulmanyiRendszerKivetel {
-		Oktato oktato = to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy", "jeszy",
-				new Date(), 1);
+		Oktato oktato = to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy",
+				"jeszy", new Date(), 1);
 		assertSame(oktato, Kozpont.getOktatóLista().get(0));
+	}
+
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void oktatoHozzaadasaTest2() throws TanulmanyiRendszerKivetel {
+		to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy", "jeszy",
+				new Date(0), 1);
+		to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy", "jeszy",
+				new Date(0), 1);
 	}
 
 	@Test
 	public void oktatoHozzaadasaTest3() throws TanulmanyiRendszerKivetel {
 		Oktato[] o = new Oktato[] {
-			new Oktato("Jeszenszky", "Péter", "jeszy", "jeszy",
-					new Date(), 1),
-			new Oktato("Jeszenszky", "Péter", "jeszy", "jeszy",
-					new Date(), 2),
-			new Oktato("Jeszenszky", "Péter", "jeszy75", "jeszy",
-					new Date(), 1),
-			new Oktato("Ismeretlen", "Péter", "jeszy", "jeszy",
-					new Date(), 1),
-			new Oktato("Jeszenszky", "Dávid", "jeszy", "jeszy",
-					new Date(), 1)
-		};
+				new Oktato("Jeszenszky", "Péter", "jeszy", "jeszy",
+						new Date(0), 1),
+				new Oktato("Jeszenszky", "Péter", "jeszy", "jeszy",
+						new Date(0), 2),
+				new Oktato("Jeszenszky", "Péter", "jeszy75", "jeszy", new Date(
+						0), 1),
+				new Oktato("Ismeretlen", "Péter", "jeszy", "jeszy",
+						new Date(0), 1),
+				new Oktato("Jeszenszky", "Dávid", "jeszy", "jeszy",
+						new Date(0), 1) };
 
 		for (int i = 0; i < o.length; i++) {
-			to.oktatóHozzáadása(
-					o[i].getVezetéknév(),
-					o[i].getKeresztnév(),
-					o[i].getFelhasználónév(),
-					o[i].getJelszó(),
-					o[i].getSzületésnap(),
-					o[i].getFizetés());
+			to.oktatóHozzáadása(o[i].getVezetéknév(), o[i].getKeresztnév(),
+					o[i].getFelhasználónév(), o[i].getJelszó(),
+					o[i].getSzületésnap(), o[i].getFizetés());
 		}
 	}
 
