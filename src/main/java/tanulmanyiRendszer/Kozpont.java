@@ -86,6 +86,13 @@ public abstract class Kozpont {
 	private static Felhasznalo bejelentkezettFelhasználó;
 
 	static {
+		init();
+	}
+
+	/**
+	 * Alaphelyzetbe állítja a programot.
+	 */
+	public static void init() {
 		szakLista = new ArrayList<Szak>();
 		félévLista = new ArrayList<>();
 		tantárgyLista = new ArrayList<>();
@@ -94,10 +101,11 @@ public abstract class Kozpont {
 		hallgatóLista = new ArrayList<>();
 		tanulmányiOsztályDolgozóLista = new ArrayList<>();
 		meghirdetettVizsgák = new ArrayList<>();
-
-		tanulmányiOsztályDolgozóLista.add(new TanulmanyiOsztaly("Keresztnév", "Vezetéknév", "admin", "admin", new Date()));
+		aktuálisFélév = null;
+		tanulmányiOsztályDolgozóLista.add(
+				new TanulmanyiOsztaly("Keresztnév", "Vezetéknév", "admin", "admin", new Date()));
 	}
-
+	
 	/**
 	 * Visszadja az aktuálisan meghirdetett félévet.
 	 * 

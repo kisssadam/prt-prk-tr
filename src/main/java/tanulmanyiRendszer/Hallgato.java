@@ -198,9 +198,10 @@ public class Hallgato extends Felhasznalo {
 	 * Ezzel a metódussal a hallgató jelentkezni tud egy vizsgára.
 	 * 
 	 * @param vizsga Erre a vizsgára jelentkezik a hallgató,
+	 * @return Visszadja a felvett vizsgát.
 	 * @throws TanulmanyiRendszerKivetel Ha nem lehet felvenni a vizsgát.
 	 */
-	public void vizsgajelentkezés(Vizsga vizsga) throws TanulmanyiRendszerKivetel {
+	public FelvettVizsga vizsgajelentkezés(Vizsga vizsga) throws TanulmanyiRendszerKivetel {
 		if (!vizsga.getMeghirdetettTantargy().getAktuálisFélév().equals(Kozpont.getAktuálisFélév())) {
 			logger.warn("Nem lehet felvenni a {} vizsgát, mert nem az aktuális félévre[{}] van meghirdetve", new Object[] {vizsga, Kozpont.getAktuálisFélév()});
 			throw new TanulmanyiRendszerKivetel("Nem lehet felvenni a vizsgát, mert nem az akutális félévre van meghirdetve.");
@@ -224,8 +225,10 @@ public class Hallgato extends Felhasznalo {
 			throw new TanulmanyiRendszerKivetel("Az aktuális félévben elérted a maximális vizsgajelentkezések számát az adott tantárgyból!");
 		}
 
-		felvettVizsgák.add(new FelvettVizsga(vizsga));
+		FelvettVizsga felvettVizsga = new FelvettVizsga(vizsga);
+		felvettVizsgák.add(felvettVizsga);
 		logger.info("{} hallgató új vizsgára jelentkezett: {}.", this, vizsga);
+		return felvettVizsga;
 	}
 
 	/**
@@ -363,9 +366,10 @@ public class Hallgato extends Felhasznalo {
 	 *  
 	 * @param tantárgy A hallgató ezt a tantárgyat veszi fel.
 	 * @param gyakorlatiCsoport A hallgató ezt a gyakorlati csoportot veszi fel.
+	 * @return Visszaadja a felvett tantárgyat.
 	 * @throws TanulmanyiRendszerKivetel Ha nem lehet felvenni a tantárgyat.
 	 */
-	public void felveszTantárgy(MeghirdetettTantargy tantárgy, GyakorlatiCsoport gyakorlatiCsoport) throws TanulmanyiRendszerKivetel {
+	public FelvettTantargy felveszTantárgy(MeghirdetettTantargy tantárgy, GyakorlatiCsoport gyakorlatiCsoport) throws TanulmanyiRendszerKivetel {
 		FelvettTantargy újtantárgy = new FelvettTantargy(tantárgy, gyakorlatiCsoport);
 
 		if (felvettTantárgyak.contains(újtantárgy)) {
@@ -385,11 +389,7 @@ public class Hallgato extends Felhasznalo {
 
 		this.felvettTantárgyak.add(újtantárgy);
 		logger.info("{} hallgató felvette a {} tantárgyat, {} gyakorlati csoporttal.", new Object[] { this, tantárgy, gyakorlatiCsoport });
-
-		logger.debug("A hallgató ezeket a tárgyakat vette eddig fel:");
-		for (FelvettTantargy ft : this.felvettTantárgyak) {
-			logger.debug(ft.toString());
-		}
+		return újtantárgy;
 	}
 	
 	

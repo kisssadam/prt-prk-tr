@@ -51,14 +51,6 @@ public class TanulmanyiOsztalyTest {
 		assertSame(oktato, Kozpont.getOktatóLista().get(0));
 	}
 
-	@Test(expected = TanulmanyiRendszerKivetel.class)
-	public void oktatoHozzaadasaTest2() throws TanulmanyiRendszerKivetel {
-		to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy", "jeszy",
-				new Date(), 1);
-		to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy", "jeszy",
-				new Date(), 1);
-	}
-
 	@Test
 	public void oktatoHozzaadasaTest3() throws TanulmanyiRendszerKivetel {
 		Oktato[] o = new Oktato[] {

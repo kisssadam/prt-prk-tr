@@ -36,6 +36,10 @@ public class FelvettTantargy {
 	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül valamilyen okból felvenni a tárgyat. 
 	 */
 	public FelvettTantargy(MeghirdetettTantargy meghirdetettTantárgy, GyakorlatiCsoport felvettGyakorlatiCsoport) throws TanulmanyiRendszerKivetel {
+		if (meghirdetettTantárgy == null) {
+			logger.warn("A meghirdetett tantárgy nem lehet null.");
+			throw new TanulmanyiRendszerKivetel("A meghirdetett tantárgy nem lehet null!");
+		}
 		this.meghirdetettTantárgy = meghirdetettTantárgy;
 		this.aláírás = false;
 		setFelvettGyakorlatiCsoport(felvettGyakorlatiCsoport);
@@ -80,7 +84,7 @@ public class FelvettTantargy {
 	}
 	
 	/**
-	 * Beállítja a felvett {@link GyakorlatiCsoport}-ot.
+	 * Beállítja a felvett gyakorlati csoportot.
 	 * 
 	 * @param felvettGyakorlatiCsoport Ezt a {@link GyakorlatiCsoport}-ot veszi fel a {@link Hallgato}.
 	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül valamilyen okból kifolyólag felvenni ezt a
@@ -89,12 +93,12 @@ public class FelvettTantargy {
 	public void setFelvettGyakorlatiCsoport(GyakorlatiCsoport felvettGyakorlatiCsoport) throws TanulmanyiRendszerKivetel {
 		if (meghirdetettTantárgy.getGyakorlatiCsoportok().contains(felvettGyakorlatiCsoport)) {
 			this.felvettGyakorlatiCsoport = felvettGyakorlatiCsoport;
-			logger.debug("Új gyakorlati csoport lett felvéve: {}",
+			logger.info("Új gyakorlati csoport lett felvéve: {}",
 					felvettGyakorlatiCsoport);
 		} else {
 			TanulmanyiRendszerKivetel trk = new TanulmanyiRendszerKivetel(
 					"Nincs ilyen gyakorlati csoport!");
-			logger.debug("{} : {}", trk.getMessage(), felvettGyakorlatiCsoport);
+			logger.warn("{} : {}", trk.getMessage(), felvettGyakorlatiCsoport);
 			throw trk;
 		}
 	}
@@ -108,7 +112,7 @@ public class FelvettTantargy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((meghirdetettTantárgy == null) ? 0 : meghirdetettTantárgy.hashCode());
+		result = prime * result + meghirdetettTantárgy.hashCode();
 		return result;
 	}
 
@@ -132,11 +136,7 @@ public class FelvettTantargy {
 			return false;
 		}
 		FelvettTantargy other = (FelvettTantargy) obj;
-		if (meghirdetettTantárgy == null) {
-			if (other.meghirdetettTantárgy != null) {
-				return false;
-			}
-		} else if (!meghirdetettTantárgy.equals(other.meghirdetettTantárgy)) {
+		if (!meghirdetettTantárgy.equals(other.meghirdetettTantárgy)) {
 			return false;
 		}
 		return true;
