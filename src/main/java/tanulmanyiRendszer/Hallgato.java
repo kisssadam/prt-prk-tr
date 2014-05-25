@@ -128,7 +128,7 @@ public class Hallgato extends Felhasznalo {
 	 * @return <code>true</code> ha a hallgatónak van érvényes vizsgajelentkezése,
 	 * <code>false</code> egyébként.
 	 */
-	private boolean vanÉrvényesVizsgajelentkezése(Vizsga vizsga) {		
+	public boolean vanÉrvényesVizsgajelentkezése(Vizsga vizsga) {		
 		// kiszűri az adott félévhez és tantárgyhoz tartozó vizsgákat
 		List<FelvettVizsga> aktuálisTantárgyVizsgái = getAktuálisanMeghirdetettTantárgyhozTartozóFelvettVizsgák(vizsga.getMeghirdetettTantargy());
 
@@ -249,10 +249,12 @@ public class Hallgato extends Felhasznalo {
 	 * @return Visszaadja a hallgató érdemjegyét a paraméterül kapott tantárgyból.
 	 */
 	public int getÉrdemjegy(FelvettTantargy felvettTantárgy) {
-		for (FelvettVizsga felvettVizsga : felvettVizsgák) {
-			if (felvettVizsga.getVizsga().getMeghirdetettTantargy().equals(felvettTantárgy.getMeghirdetettTantárgy()) &&
-				felvettVizsga.getÉrdemjegy() > 0) {
-				return felvettVizsga.getÉrdemjegy();
+		MeghirdetettTantargy meghirdetettTantargy = felvettTantárgy.getMeghirdetettTantárgy();
+		for (FelvettVizsga felvettVizsga : this.felvettVizsgák) {
+			if (felvettVizsga.getVizsga().getMeghirdetettTantargy().equals(meghirdetettTantargy)) {
+				if (felvettVizsga.getÉrdemjegy() > 0) {
+					return felvettVizsga.getÉrdemjegy();
+				}
 			}
 		}
 		return -1;
@@ -304,12 +306,12 @@ public class Hallgato extends Felhasznalo {
 	 * @param tantárgy Ennek a tantárgynak az előfeltételei lesznek ellenőrizve.
 	 * @return <code>true</code> ha a tantárgy előfeltételei teljesülnek, egyébként <code>false</code>.
 	 */
-	public boolean isTantárgyElőfeltételekTeljesülnek(FelvettTantargy tantárgy) {
-		List<Tantargy> előfeltételek = tantárgy.getMeghirdetettTantárgy().getTantárgy().getElőfeltételek();
+	public boolean isTantárgyElőfeltételekTeljesülnek(Tantargy tantargy) {
+		List<Tantargy> előfeltételek = tantargy.getElőfeltételek();
 		int teljesültElőfeltételekSzáma = 0;
-		for (Tantargy t : előfeltételek) {
+		for (Tantargy előfeltétel : előfeltételek) {
 			for (FelvettTantargy felvettTantárgy : felvettTantárgyak) {
-				if (felvettTantárgy.getMeghirdetettTantárgy().getTantárgy().equals(t)) {
+				if (felvettTantárgy.getMeghirdetettTantárgy().getTantárgy().equals(előfeltétel)) {
 					if (getÉrdemjegy(felvettTantárgy) > 1) {
 						++teljesültElőfeltételekSzáma;
 					}
@@ -317,10 +319,10 @@ public class Hallgato extends Felhasznalo {
 			}
 		}
 		if (teljesültElőfeltételekSzáma == előfeltételek.size()) {
-			logger.info("{} hallgató {} tantárgy előfeltételei teljesültek.", this, tantárgy);
+			logger.info("{} hallgató {} tantárgy előfeltételei teljesültek.", this, tantargy);
 			return true;
 		} else {
-			logger.info("{} hallgató {} tantárgy előfeltételei nem teljesültek.", this, tantárgy);
+			logger.info("{} hallgató {} tantárgy előfeltételei nem teljesültek.", this, tantargy);
 			return false;
 		}
 	}
@@ -332,9 +334,10 @@ public class Hallgato extends Felhasznalo {
 	 * @param tantárgy Ezt a tantárgyat vizsgálja meg.
 	 * @return <code>true</code> ha már teljesítette a tantárgyat, egyébként <code>false</code>.
 	 */
-	public boolean isTeljesítettTantárgy(FelvettTantargy tantárgy) {
+	public boolean isTeljesítettTantárgy(Tantargy tantárgy) {
 		for (FelvettTantargy felvettTantárgy : felvettTantárgyak) {
-			if (felvettTantárgy.equals(tantárgy) && getÉrdemjegy(felvettTantárgy) > 1) {
+			if (felvettTantárgy.getMeghirdetettTantárgy().getTantárgy().equals(tantárgy)
+					&& getÉrdemjegy(felvettTantárgy) > 1) {
 				logger.info("{} hallgató már teljesítette ezt tárgyat: {}.", this, tantárgy);
 				return true;
 			}
@@ -346,17 +349,17 @@ public class Hallgato extends Felhasznalo {
 	/**
 	 * Visszaadja a paraméterül kapott tantárgy hallgató által felvételeinek a számát.
 	 * 
-	 * @param tantárgy Ezt a tantárgyat keresi a hallgató által felvett tantárgyak között.
+	 * @param tantargy Ezt a tantárgyat keresi a hallgató által felvett tantárgyak között.
 	 * @return Ennyiszer vette fel a hallgató a paraméteürl kapott tantárgyat.
 	 */
-	public int tantárgyfelvételekSzáma(FelvettTantargy tantárgy) {
+	public int tantárgyfelvételekSzáma(Tantargy tantargy) {
 		int számláló = 0;
-		for (FelvettTantargy ft : felvettTantárgyak) {
-			if (ft.equals(tantárgy)) {
+		for (FelvettTantargy felvettTantargy : felvettTantárgyak) {
+			if (felvettTantargy.getMeghirdetettTantárgy().getTantárgy().equals(tantargy)) {
 				++számláló;
 			}
 		}
-		logger.info("{} hallgató {}-szor vette fel ezt a tárgyat: {}.", new Object[] { this, számláló, tantárgy.getMeghirdetettTantárgy().getTantárgy() });
+		logger.info("{} hallgató {}-szor vette fel ezt a tárgyat: {}.", new Object[] { this, számláló, tantargy });
 		return számláló;
 	}
 	
@@ -364,32 +367,33 @@ public class Hallgato extends Felhasznalo {
 	 * Hozzéadja a hallgató által felvett tantárgyaihoz a paraméterül kapott meghirdetett tantárgyat
 	 * és a hozzá tartozó gyakorlati csoportot.
 	 *  
-	 * @param tantárgy A hallgató ezt a tantárgyat veszi fel.
+	 * @param meghirdetettTantargy A hallgató ezt a tantárgyat veszi fel.
 	 * @param gyakorlatiCsoport A hallgató ezt a gyakorlati csoportot veszi fel.
 	 * @return Visszaadja a felvett tantárgyat.
 	 * @throws TanulmanyiRendszerKivetel Ha nem lehet felvenni a tantárgyat.
 	 */
-	public FelvettTantargy felveszTantárgy(MeghirdetettTantargy tantárgy, GyakorlatiCsoport gyakorlatiCsoport) throws TanulmanyiRendszerKivetel {
-		FelvettTantargy újtantárgy = new FelvettTantargy(tantárgy, gyakorlatiCsoport);
+	public FelvettTantargy felveszTantárgy(MeghirdetettTantargy meghirdetettTantargy, GyakorlatiCsoport gyakorlatiCsoport) throws TanulmanyiRendszerKivetel {
+		FelvettTantargy felvettTantargy = new FelvettTantargy(meghirdetettTantargy, gyakorlatiCsoport);
 
-		if (felvettTantárgyak.contains(újtantárgy)) {
-			logger.warn("{} hallgató ezt a {} tárgyat már felvette ebben a félévben.", this, tantárgy);
+		if (felvettTantárgyak.contains(felvettTantargy)) {
+			logger.warn("{} hallgató ezt a {} tárgyat már felvette ebben a félévben.", this, meghirdetettTantargy);
 			throw new TanulmanyiRendszerKivetel("Ebben a félévben, ezt a tárgyat már felvette.");
 		}
 
-		if (!isTantárgyElőfeltételekTeljesülnek(újtantárgy)) {
-			logger.warn("{} tantárgy előfeltételei nem teljesültek!", tantárgy);
+		if (!isTantárgyElőfeltételekTeljesülnek(meghirdetettTantargy.getTantárgy())) {
+			logger.warn("{} tantárgy előfeltételei nem teljesültek!", meghirdetettTantargy);
 			throw new TanulmanyiRendszerKivetel("A tantárgy előfeltételei nem teljesültek!");
 		}
 
-		if (tantárgyfelvételekSzáma(újtantárgy) >= 3) {
-			logger.warn("{} hallgató már háromszor is felvette a {} tárgyat, ezért nem lehet mégegyszer felvennie!", new Object[] { this, tantárgy });
+		if (tantárgyfelvételekSzáma(felvettTantargy.getMeghirdetettTantárgy().getTantárgy()) >= 3) {
+			logger.warn("{} hallgató már háromszor is felvette a {} tárgyat, ezért nem lehet mégegyszer felvennie!",
+					new Object[] { this, meghirdetettTantargy.getTantárgy() });
 			throw new TanulmanyiRendszerKivetel("A hallgató már háromszor is felvette ezt a tárgyat, ezért nem lehet mégegyszer felvennie!");
 		}
 
-		this.felvettTantárgyak.add(újtantárgy);
-		logger.info("{} hallgató felvette a {} tantárgyat, {} gyakorlati csoporttal.", new Object[] { this, tantárgy, gyakorlatiCsoport });
-		return újtantárgy;
+		this.felvettTantárgyak.add(felvettTantargy);
+		logger.info("{} hallgató felvette a {} tantárgyat, {} gyakorlati csoporttal.", new Object[] { this, meghirdetettTantargy, gyakorlatiCsoport });
+		return felvettTantargy;
 	}
 	
 	

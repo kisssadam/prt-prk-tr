@@ -197,18 +197,14 @@ public class TanulmanyiOsztalyTest {
 	@Test(expected = TanulmanyiRendszerKivetel.class)
 	public void gyakorlatiCsoportHozzaadasaTest2()
 			throws TanulmanyiRendszerKivetel {
-		Tantargy t1 = new Tantargy("INDK721L", "háló", 5, new Szak("pti",
-				Szint.BSc));
+		Tantargy t1 = new Tantargy("INDK721L", "háló", 5, new Szak("pti", Szint.BSc));
 		Oktato o1 = new Oktato("vez", "ker", "vezker", "jelszo", new Date(), 1);
-		to.setAktuálisFélév(new Felev(new Idoszak(new Date(0), new Date(1)),
-				new Idoszak(new Date(2), new Date(3))));
+		to.setAktuálisFélév(new Felev(new Idoszak(new Date(0), new Date(1)), new Idoszak(new Date(2), new Date(3))));
 		MeghirdetettTantargy mt = to.tantárgyMeghirdetése(t1, o1,
 				Kozpont.getAktuálisFélév(), new Idopont(Napok.Hétfő, 12),
 				"IK-F0");
-		to.gyakorlatiCsoportHozzáadása(mt, o1, "IK-F03", new Idopont(
-				Napok.Csütörtök, 10));
-		to.gyakorlatiCsoportHozzáadása(mt, o1, "IK-F03", new Idopont(
-				Napok.Csütörtök, 10));
+		to.gyakorlatiCsoportHozzáadása(mt, o1, "IK-F03", new Idopont(Napok.Csütörtök, 10));
+		to.gyakorlatiCsoportHozzáadása(mt, o1, "IK-F03", new Idopont(Napok.Csütörtök, 10));
 	}
-
+	
 }

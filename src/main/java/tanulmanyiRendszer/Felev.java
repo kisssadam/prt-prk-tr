@@ -49,7 +49,7 @@ public class Felev implements Comparable<Felev> {
 		if (szorgalmiIdőszak.getVége().after(vizsgaIdőszak.getEleje())) {
 			logger.warn("A szorgalmi időszaknak hamarabb kell lennie, mint a vizsga időszaknak.");
 			throw new TanulmanyiRendszerKivetel(
-					"A szorgalmi időszaknak hamrabb kell lennie, mint a vizsga időszaknak.");
+					"A szorgalmi időszaknak hamarabb kell lennie, mint a vizsga időszaknak.");
 		}
 		this.szorgalmiIdőszak = szorgalmiIdőszak;
 		this.vizsgaIdőszak = vizsgaIdőszak;
