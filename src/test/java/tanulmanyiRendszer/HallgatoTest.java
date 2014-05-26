@@ -2,7 +2,6 @@ package tanulmanyiRendszer;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 
@@ -382,8 +381,75 @@ public class HallgatoTest {
 		assertEquals(1, felvettVizsgák.size());
 	}
 	
+	/**
+	 * A központban nem a vizsga féléve az aktuális félév, ezért nem lehet felvenni.
+	 * 
+	 * @throws TanulmanyiRendszerKivetel
+	 */
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void vizsgajelentkezesTest1() throws TanulmanyiRendszerKivetel {
+		hallgato.vizsgajelentkezés(vizsga);
+	}
+	
+	/**
+	 * Nincs aláírás a tantárgyból, ezért nem lehet felvenni a vizsgát.
+	 * 
+	 * @throws TanulmanyiRendszerKivetel
+	 */
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void vizsgajelentkezesTest2() throws TanulmanyiRendszerKivetel {
+		to.újFélév(felev.getSzorgalmiIdőszak(), felev.getVizsgaIdőszak(), true);
+		hallgato.vizsgajelentkezés(vizsga);
+	}
+	
+	
+	/**
+	 * A hallgatónak van már érvényes vizsgajelentkezése.
+	 * 
+	 * @throws TanulmanyiRendszerKivetel
+	 */
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void vizsgajelentkezesTest3() throws TanulmanyiRendszerKivetel {
+		to.újFélév(felev.getSzorgalmiIdőszak(), felev.getVizsgaIdőszak(), true);
+		to.gyakorlatiCsoportHozzáadása(mt, oktato1, "IK-104", idopont);
+		hallgato.felveszTantárgy(mt, mt.getGyakorlatiCsoportok().get(0));
+		oktato1.aláírásBeírása(hallgato, mt, true);
+		
+		hallgato.vizsgajelentkezés(vizsga);
+		hallgato.vizsgajelentkezés(vizsga);
+	}
+	
+	/**
+	 * Több, mint 3-szor próbál meg levizsgázni egy tantárgyból a hallgató.
+	 * 
+	 * @throws TanulmanyiRendszerKivetel
+	 */
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void vizsgajelentkezesTest4() throws TanulmanyiRendszerKivetel {
+		to.újFélév(felev.getSzorgalmiIdőszak(), felev.getVizsgaIdőszak(), true);
+		to.gyakorlatiCsoportHozzáadása(mt, oktato1, "IK-104", idopont);
+		hallgato.felveszTantárgy(mt, mt.getGyakorlatiCsoportok().get(0));
+		oktato1.aláírásBeírása(hallgato, mt, true);
+		
+		Vizsga vizsga1 = new Vizsga(mt, new Date(0), "Gyires Béla");
+		Vizsga vizsga2 = new Vizsga(mt, new Date(1), "Gyires Béla");
+		Vizsga vizsga3 = new Vizsga(mt, new Date(2), "Gyires Béla");
+		Vizsga vizsga4 = new Vizsga(mt, new Date(3), "Gyires Béla");
+		
+		hallgato.vizsgajelentkezés(vizsga1);
+		oktato1.érdemjegyBeírása(hallgato, vizsga1, 2);
+		
+		hallgato.vizsgajelentkezés(vizsga2);
+		oktato1.érdemjegyBeírása(hallgato, vizsga2, 2);
+		
+		hallgato.vizsgajelentkezés(vizsga3);
+		oktato1.érdemjegyBeírása(hallgato, vizsga3, 2);
+		
+		hallgato.vizsgajelentkezés(vizsga4);
+	}
+	
 	@Test
-	public void equalsTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public void equalsTest() {
 		Hallgato h1 = new Hallgato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), ptibsc);
 		Hallgato h2 = new Hallgato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), new Szak("pti", Szint.MSc));
 		Oktato o1 = new Oktato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), 1);
