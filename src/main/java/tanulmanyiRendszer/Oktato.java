@@ -103,6 +103,30 @@ public class Oktato extends Felhasznalo {
 		logger.info("Új {} vizsga lett hozzáadva a {} tantárgyhoz.", new Object[] {vizsga, meghirdetettTantargy});
 		return;
 	}
+	
+	/**
+	 * Beírja a paraméterül kapott vizsgára a paraméterül kapott érdemjegyet.
+	 * 
+	 * @param hallgato Ennek a hallgatónak a vizsgájára kerül be az érdemjegy.
+	 * @param vizsga Erre a vizsgára kerül be az érdemjegy.
+	 * @param érdemjegy Ez az érdemjegy kerül be a vizsgára.
+	 * @throws TanulmanyiRendszerKivetel 
+	 */
+	public void érdemjegyBeírása(Hallgato hallgato, Vizsga vizsga, int érdemjegy) throws TanulmanyiRendszerKivetel {
+		for (FelvettVizsga felvettVizsga : hallgato.getFelvettVizsgák()) {
+			if (felvettVizsga.getVizsga().equals(vizsga)) {
+				if (felvettVizsga.getÉrdemjegy() > 0) {
+					continue;
+				} else {
+					felvettVizsga.setÉrdemjegy(érdemjegy);
+					logger.info("A {} vizsgára új érdemjegy került beírása: {}.", new Object[] {vizsga, érdemjegy});
+					return;
+				}
+			}
+		}
+		logger.warn("{} hallgatónak nincs olyan vizsgája, amire be lehetne írni az érdemjegyet: {}", new Object[] {hallgato, érdemjegy});
+		throw new TanulmanyiRendszerKivetel("Nincs olyan vizsgája a hallgatónak, amire be lehetne írni az érdemjegyet!");
+	}
 
 	/**
 	 * Visszaadja az oktató fizetését.

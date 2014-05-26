@@ -32,6 +32,7 @@ import tanulmanyiRendszer.FelvettVizsga;
 import tanulmanyiRendszer.Hallgato;
 import tanulmanyiRendszer.Kozpont;
 import tanulmanyiRendszer.Oktato;
+import tanulmanyiRendszer.TanulmanyiRendszerKivetel;
 
 /**
  * Lehetővé teszi egy {@link Oktato}-nak, hogy beírjon egy érdemjegyet egy {@link Hallgato}
@@ -117,7 +118,13 @@ public class ErdemjegyBeirasaPanel extends JPanel {
 					JOptionPane.showMessageDialog(contentPane, "Válassz ki egy vizsgát, ahova be szeretnéd írni a jegyet!", "Hiba", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				hallgato.érdemjegyBeírása(selectedFelvettVizsga, (Integer) erdemjegySpinner.getValue());
+				Oktato oktato = (Oktato) Kozpont.getBejelentkezettFelhasználó();
+				try {
+					oktato.érdemjegyBeírása(hallgato, selectedFelvettVizsga.getVizsga(), (Integer) erdemjegySpinner.getValue());
+				} catch (TanulmanyiRendszerKivetel e1) {
+					JOptionPane.showMessageDialog(contentPane, e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				updateFelvettVizsgák();
 				contentPane.validate();
 			}

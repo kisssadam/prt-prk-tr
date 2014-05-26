@@ -111,8 +111,8 @@ public class HallgatoTest {
 		oktato1.aláírásBeírása(hallgato, mt, true);
 		oktato1.vizsgahirdetés(mt, vizsga);
 		assertEquals(false, hallgato.vanÉrvényesVizsgajelentkezése(vizsga));
-		FelvettVizsga fv = hallgato.vizsgajelentkezés(vizsga);
-		hallgato.érdemjegyBeírása(fv, 1);
+		hallgato.vizsgajelentkezés(vizsga);
+		oktato1.érdemjegyBeírása(hallgato, vizsga, 1);
 		assertEquals(false, hallgato.vanÉrvényesVizsgajelentkezése(vizsga));
 	}
 
@@ -124,11 +124,11 @@ public class HallgatoTest {
 		
 		assertEquals(0, hallgato.getAktuálisFélévbenFelvettVizsgák().size());
 		oktato1.aláírásBeírása(hallgato, mt, true);
-		FelvettVizsga felvettVizsga = hallgato.vizsgajelentkezés(vizsga);
+		hallgato.vizsgajelentkezés(vizsga);
 		assertEquals(1, hallgato.getAktuálisFélévbenFelvettVizsgák().size());
 		assertEquals(false, hallgato.isTeljesítettTantárgy(tantargy1));
 		assertEquals(false, hallgato.isTeljesítettTantárgy(new Tantargy("INDK721", "háló", 5, ptibsc)));
-		hallgato.érdemjegyBeírása(felvettVizsga, 5);
+		oktato1.érdemjegyBeírása(hallgato, vizsga, 5);
 		assertEquals(true, hallgato.isTeljesítettTantárgy(tantargy1));
 	}
 
@@ -183,8 +183,8 @@ public class HallgatoTest {
 		Vizsga vizsga1 = new Vizsga(mt1, new Date(12), "IK-F0");
 		
 		oktato1.vizsgahirdetés(mt1, vizsga1);
-		FelvettVizsga felvettVizsga = hallgato.vizsgajelentkezés(vizsga1);
-		hallgato.érdemjegyBeírása(felvettVizsga, 5);
+		hallgato.vizsgajelentkezés(vizsga1);
+		oktato1.érdemjegyBeírása(hallgato, vizsga1, 5);
 		to.félévLezárása();
 
 		// a következő félévben felveszi a hallgató az előfeltételes tantárgyat.
@@ -213,8 +213,8 @@ public class HallgatoTest {
 		Vizsga vizsga1 = new Vizsga(mt1, new Date(12), "IK-F0");
 		
 		oktato1.vizsgahirdetés(mt1, vizsga1);
-		FelvettVizsga felvettVizsga = hallgato.vizsgajelentkezés(vizsga1);
-		hallgato.érdemjegyBeírása(felvettVizsga, 5);
+		hallgato.vizsgajelentkezés(vizsga1);
+		oktato1.érdemjegyBeírása(hallgato, vizsga1, 5);
 		to.félévLezárása();
 
 		// a következő félévben felveszi a hallgató az előfeltételes tantárgyat.
@@ -248,8 +248,8 @@ public class HallgatoTest {
 		Vizsga vizsga1 = new Vizsga(mt1, new Date(12), "IK-F0");
 		
 		oktato1.vizsgahirdetés(mt1, vizsga1);
-		FelvettVizsga felvettVizsga = hallgato.vizsgajelentkezés(vizsga1);
-		hallgato.érdemjegyBeírása(felvettVizsga, 5);
+		hallgato.vizsgajelentkezés(vizsga1);
+		oktato1.érdemjegyBeírása(hallgato, vizsga1, 5);
 		to.félévLezárása();
 
 		// a következő félévben felveszi a hallgató az előfeltételes tantárgyat.
@@ -265,8 +265,8 @@ public class HallgatoTest {
 		oktato1.aláírásBeírása(hallgato, mt2, true);
 		Vizsga vizsga2 = new Vizsga(mt2, new Date(13), "IK-F0");
 		oktato1.vizsgahirdetés(mt2, vizsga2);
-		FelvettVizsga felvettVizsga2 = hallgato.vizsgajelentkezés(vizsga2);
-		hallgato.érdemjegyBeírása(felvettVizsga2, 5);
+		hallgato.vizsgajelentkezés(vizsga2);
+		oktato1.érdemjegyBeírása(hallgato, vizsga2, 5);
 		
 		Tantargy tantargy3 = new Tantargy("t3", "prog1", 10, ptibsc, tantargy1);
 		to.tantárgyHozzáadása(tantargy3);
@@ -277,8 +277,8 @@ public class HallgatoTest {
 		Vizsga vizsga3 = new Vizsga(mt3, new Date(13), "IK-F0");
 		oktato2.vizsgahirdetés(mt3, vizsga3);
 		oktato2.aláírásBeírása(hallgato, mt3, true);
-		FelvettVizsga felvettVizsga3 = hallgato.vizsgajelentkezés(vizsga3);
-		hallgato.érdemjegyBeírása(felvettVizsga3, 5);
+		hallgato.vizsgajelentkezés(vizsga3);
+		oktato2.érdemjegyBeírása(hallgato, vizsga3, 5);
 	}
 	
 	@Test

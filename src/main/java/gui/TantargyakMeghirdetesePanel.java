@@ -31,6 +31,7 @@ import javax.swing.AbstractButton;
 import tanulmanyiRendszer.Felev;
 import tanulmanyiRendszer.Idopont;
 import tanulmanyiRendszer.Kozpont;
+import tanulmanyiRendszer.MeghirdetettTantargy;
 import tanulmanyiRendszer.Oktato;
 import tanulmanyiRendszer.Tantargy;
 import tanulmanyiRendszer.TanulmanyiOsztaly;
@@ -56,18 +57,17 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 	 */
 	public TantargyakMeghirdetesePanel(final JPanel contentPane, final BorderLayout borderLayout) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
-				0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[] { 0, 144, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 94, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblTantrgyakMeghirdetse = new JLabel("Tantárgyak meghirdetése");
 		lblTantrgyakMeghirdetse.setFont(new Font("Dialog", Font.BOLD, 14));
 		GridBagConstraints gbc_lblTantrgyakMeghirdetse = new GridBagConstraints();
 		gbc_lblTantrgyakMeghirdetse.gridwidth = 3;
-		gbc_lblTantrgyakMeghirdetse.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTantrgyakMeghirdetse.insets = new Insets(0, 0, 5, 0);
 		gbc_lblTantrgyakMeghirdetse.gridx = 0;
 		gbc_lblTantrgyakMeghirdetse.gridy = 0;
 		add(lblTantrgyakMeghirdetse, gbc_lblTantrgyakMeghirdetse);
@@ -103,7 +103,6 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 
 		JScrollPane oktatoScrollPane = new JScrollPane();
 		GridBagConstraints gbc_oktatoScrollPane = new GridBagConstraints();
-		gbc_oktatoScrollPane.gridheight = 3;
 		gbc_oktatoScrollPane.gridwidth = 2;
 		gbc_oktatoScrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_oktatoScrollPane.fill = GridBagConstraints.BOTH;
@@ -130,29 +129,51 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 		oktatoTable = new JTable();
 		oktatoTable.setModel(oktatóDefaultTableModel);
 		oktatoScrollPane.setViewportView(oktatoTable);
+		
+		JLabel lblMeghirdetettTantrgyak = new JLabel("Meghirdetett Tantárgyak:");
+		GridBagConstraints gbc_lblMeghirdetettTantrgyak = new GridBagConstraints();
+		gbc_lblMeghirdetettTantrgyak.anchor = GridBagConstraints.EAST;
+		gbc_lblMeghirdetettTantrgyak.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMeghirdetettTantrgyak.gridx = 0;
+		gbc_lblMeghirdetettTantrgyak.gridy = 5;
+		add(lblMeghirdetettTantrgyak, gbc_lblMeghirdetettTantrgyak);
+		
+		final MeghirdetettTantargyPanel meghirdetettTantargyListazoPanel = new MeghirdetettTantargyPanel();
+		for (MeghirdetettTantargy mt : Kozpont.getAktuálisanMeghirdetettTantárgyLista()) {
+			meghirdetettTantargyListazoPanel.getMeghirdetettTantargyTableModel().addRow(
+					new Object[] {mt.getTantárgy().getNév(), mt.getElőadásIdőpont(), mt.getElőadásTerem()});
+		}
+		GridBagConstraints gbc_meghirdetettTantargyListazoPanel = new GridBagConstraints();
+		gbc_meghirdetettTantargyListazoPanel.gridwidth = 2;
+		gbc_meghirdetettTantargyListazoPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_meghirdetettTantargyListazoPanel.fill = GridBagConstraints.BOTH;
+		gbc_meghirdetettTantargyListazoPanel.gridx = 1;
+		gbc_meghirdetettTantargyListazoPanel.gridy = 5;
+		add(meghirdetettTantargyListazoPanel, gbc_meghirdetettTantargyListazoPanel);
 
 		JLabel lblEladsIdpont = new JLabel("Előadás időpont:");
 		GridBagConstraints gbc_lblEladsIdpont = new GridBagConstraints();
 		gbc_lblEladsIdpont.anchor = GridBagConstraints.EAST;
 		gbc_lblEladsIdpont.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEladsIdpont.gridx = 0;
-		gbc_lblEladsIdpont.gridy = 7;
+		gbc_lblEladsIdpont.gridy = 6;
 		add(lblEladsIdpont, gbc_lblEladsIdpont);
 
 		final IdopontValasztoPanel időpontVálasztóPanel = new IdopontValasztoPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 7;
-		add(időpontVálasztóPanel, gbc_panel_1);
+		GridBagConstraints gbc_meghirdetettTantargyListazoPanel1 = new GridBagConstraints();
+		gbc_meghirdetettTantargyListazoPanel1.anchor = GridBagConstraints.WEST;
+		gbc_meghirdetettTantargyListazoPanel1.insets = new Insets(0, 0, 5, 5);
+		gbc_meghirdetettTantargyListazoPanel1.fill = GridBagConstraints.VERTICAL;
+		gbc_meghirdetettTantargyListazoPanel1.gridx = 1;
+		gbc_meghirdetettTantargyListazoPanel1.gridy = 6;
+		add(időpontVálasztóPanel, gbc_meghirdetettTantargyListazoPanel1);
 
 		JLabel lblEladsTerem = new JLabel("Előadás terem:");
 		GridBagConstraints gbc_lblEladsTerem = new GridBagConstraints();
 		gbc_lblEladsTerem.anchor = GridBagConstraints.EAST;
 		gbc_lblEladsTerem.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEladsTerem.gridx = 0;
-		gbc_lblEladsTerem.gridy = 8;
+		gbc_lblEladsTerem.gridy = 7;
 		add(lblEladsTerem, gbc_lblEladsTerem);
 
 		eloadasTeremField = new JTextField();
@@ -161,7 +182,7 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 		gbc_eloadasTeremField.insets = new Insets(0, 0, 5, 0);
 		gbc_eloadasTeremField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_eloadasTeremField.gridx = 1;
-		gbc_eloadasTeremField.gridy = 8;
+		gbc_eloadasTeremField.gridy = 7;
 		add(eloadasTeremField, gbc_eloadasTeremField);
 		eloadasTeremField.setColumns(10);
 
@@ -170,7 +191,7 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 		gbc_panel.anchor = GridBagConstraints.SOUTHEAST;
 		gbc_panel.gridwidth = 2;
 		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 9;
+		gbc_panel.gridy = 8;
 		add(panel, gbc_panel);
 
 		JButton btnMgsem = new JButton("Mégsem");
@@ -229,7 +250,9 @@ public class TantargyakMeghirdetesePanel extends JPanel {
 
 				TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont.getBejelentkezettFelhasználó();
 				try {
-					to.tantárgyMeghirdetése(tantargy, oktató, aktuálisFélév, előadásIdőpont, előadásTerem);
+					MeghirdetettTantargy mt = to.tantárgyMeghirdetése(tantargy, oktató, aktuálisFélév, előadásIdőpont, előadásTerem);
+					meghirdetettTantargyListazoPanel.getMeghirdetettTantargyTableModel().addRow(
+							new Object[] {tantargy.getNév(), mt.getElőadásIdőpont(), mt.getElőadásTerem()});
 				} catch (TanulmanyiRendszerKivetel ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
 					return;

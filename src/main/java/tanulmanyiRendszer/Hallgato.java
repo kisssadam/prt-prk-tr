@@ -231,15 +231,15 @@ public class Hallgato extends Felhasznalo {
 		return felvettVizsga;
 	}
 
-	/**
-	 * Beírja a paraméterül kapott vizsgára a paraméterül kapott érdemjegyet.
-	 * @param felvettVizsga Erre a vizsgára kerül be az érdemjegy.
-	 * @param érdemjegy Ez az érdemjegy kerül be a vizsgára.
-	 */
-	public void érdemjegyBeírása(FelvettVizsga felvettVizsga, int érdemjegy) {
-		felvettVizsga.setÉrdemjegy(érdemjegy);
-		logger.info("A {} vizsgára új érdemjegy került beírása: {}.", new Object[] {felvettVizsga, érdemjegy});
-	}
+//	/**
+//	 * Beírja a paraméterül kapott vizsgára a paraméterül kapott érdemjegyet.
+//	 * @param felvettVizsga Erre a vizsgára kerül be az érdemjegy.
+//	 * @param érdemjegy Ez az érdemjegy kerül be a vizsgára.
+//	 */
+//	public void érdemjegyBeírása(FelvettVizsga felvettVizsga, int érdemjegy) {
+//		felvettVizsga.setÉrdemjegy(érdemjegy);
+//		logger.info("A {} vizsgára új érdemjegy került beírása: {}.", new Object[] {felvettVizsga, érdemjegy});
+//	}
 	
 	
 	/**
