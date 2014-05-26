@@ -5,6 +5,7 @@
 	<artifactId>maven-prt-tr</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Tanulmányi Rendszer</name>
+	<url>https://github.com/kisssandoradam/prt-prk-tr</url>
 	<developers>
 		<developer>
 			<name>Kiss Sándor Ádám</name>
