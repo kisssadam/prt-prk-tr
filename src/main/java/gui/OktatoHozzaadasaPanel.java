@@ -60,16 +60,16 @@ public class OktatoHozzaadasaPanel extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+				0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblOktatHozzadsa = new JLabel("Oktató hozzáadása");
 		lblOktatHozzadsa.setFont(new Font("Dialog", Font.BOLD, 14));
 		GridBagConstraints gbc_lblOktatHozzadsa = new GridBagConstraints();
 		gbc_lblOktatHozzadsa.gridwidth = 2;
-		gbc_lblOktatHozzadsa.insets = new Insets(0, 0, 5, 5);
+		gbc_lblOktatHozzadsa.insets = new Insets(0, 0, 5, 0);
 		gbc_lblOktatHozzadsa.gridx = 0;
 		gbc_lblOktatHozzadsa.gridy = 0;
 		add(lblOktatHozzadsa, gbc_lblOktatHozzadsa);
@@ -173,6 +173,15 @@ public class OktatoHozzaadasaPanel extends JPanel {
 		gbc_fizetesField.gridy = 8;
 		add(fizetesField, gbc_fizetesField);
 		fizetesField.setColumns(10);
+		
+		final OktatoListazoPanel oktatoListazoPanel = new OktatoListazoPanel();
+		GridBagConstraints gbc_oktatoListazoPanel = new GridBagConstraints();
+		gbc_oktatoListazoPanel.gridwidth = 2;
+		gbc_oktatoListazoPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_oktatoListazoPanel.fill = GridBagConstraints.BOTH;
+		gbc_oktatoListazoPanel.gridx = 0;
+		gbc_oktatoListazoPanel.gridy = 9;
+		add(oktatoListazoPanel, gbc_oktatoListazoPanel);
 
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -213,7 +222,8 @@ public class OktatoHozzaadasaPanel extends JPanel {
 
 						TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont
 								.getBejelentkezettFelhasználó();
-						to.oktatóHozzáadása(vezeteknevField.getText(),
+						Oktato oktato = to.oktatóHozzáadása(
+								vezeteknevField.getText(),
 								keresztnevField.getText(),
 								felhasznalonevField.getText(),
 								String.valueOf(jelszoField.getPassword()),
@@ -225,6 +235,13 @@ public class OktatoHozzaadasaPanel extends JPanel {
 						jelszoField.setText("");
 						datePicker.setDate(new Date());
 						fizetesField.setText("");
+						oktatoListazoPanel.getOktatoTableModel().addRow(new Object[] {
+								oktato.getVezetéknév(),
+								oktato.getKeresztnév(),
+								oktato.getFelhasználónév(),
+								Kozpont.getSimpleDateFormat().format(oktato.getSzületésnap()),
+								oktato.getFizetés()
+						});
 					} catch (TanulmanyiRendszerKivetel ex) {
 						JOptionPane.showMessageDialog(contentPane,
 								ex.getMessage(), "Figyelmeztetés",
