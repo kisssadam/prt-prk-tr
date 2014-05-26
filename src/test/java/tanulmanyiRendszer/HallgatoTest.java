@@ -2,6 +2,7 @@ package tanulmanyiRendszer;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 
@@ -380,5 +381,29 @@ public class HallgatoTest {
 		felvettVizsgák = hallgato.getAktuálisanMeghirdetettTantárgyhozTartozóFelvettVizsgák(mt);
 		assertEquals(1, felvettVizsgák.size());
 	}
-
+	
+	@Test
+	public void equalsTest() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		Hallgato h1 = new Hallgato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), ptibsc);
+		Hallgato h2 = new Hallgato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), new Szak("pti", Szint.MSc));
+		Oktato o1 = new Oktato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), 1);
+		assertEquals(h1, h1);
+		assertNotEquals(h1, null);
+		assertNotEquals(h1, "alma");
+		assertNotEquals(h1, o1);
+		assertNotEquals(h1, h2);
+	}
+	
+	@Test
+	public void hashCodeTest() {
+		Hallgato h1 = new Hallgato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), ptibsc);
+		Hallgato h2 = new Hallgato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), new Szak("pti", Szint.MSc));
+		Oktato o1 = new Oktato("vezetéknév", "keresztnév", "felhasználónév", "jelszó", new Date(1), 1);
+		assertEquals(h1.hashCode(), h1.hashCode());
+		assertNotEquals(h1.hashCode(), null);
+		assertNotEquals(h1.hashCode(), "alma".hashCode());
+		assertNotEquals(h1.hashCode(), o1.hashCode());
+		assertNotEquals(h1.hashCode(), h2.hashCode());
+	}
+	
 }
