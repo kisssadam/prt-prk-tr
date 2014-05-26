@@ -69,13 +69,13 @@ public class TanulmanyiOsztalyTest {
 		Oktato[] o = new Oktato[] {
 				new Oktato("Jeszenszky", "Péter", "jeszy", "jeszy",
 						new Date(0), 1),
-				new Oktato("Jeszenszky", "Péter", "jeszy", "jeszy",
+				new Oktato("Jeszenszky", "Péter", "jeszy1", "jeszy",
 						new Date(0), 2),
 				new Oktato("Jeszenszky", "Péter", "jeszy75", "jeszy", new Date(
 						0), 1),
-				new Oktato("Ismeretlen", "Péter", "jeszy", "jeszy",
+				new Oktato("Ismeretlen", "Péter", "jeszy2", "jeszy",
 						new Date(0), 1),
-				new Oktato("Jeszenszky", "Dávid", "jeszy", "jeszy",
+				new Oktato("Jeszenszky", "Dávid", "jeszy3", "jeszy",
 						new Date(0), 1) };
 
 		for (int i = 0; i < o.length; i++) {
@@ -85,6 +85,14 @@ public class TanulmanyiOsztalyTest {
 		}
 	}
 
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void oktatoHozzaadasaTest4() throws TanulmanyiRendszerKivetel {
+		to.oktatóHozzáadása("Jeszenszky", "Péter", "jeszy", "jeszy",
+				new Date(0), 1);
+		to.oktatóHozzáadása("Nagy", "Péter", "jeszy", "jeszy",
+				new Date(0), 1);
+	}
+	
 	@Test
 	public void szakHozzaadasaTest1() throws TanulmanyiRendszerKivetel {
 		Szak szak = to.szakHozzáadása("pti", Szint.MSc);
@@ -119,6 +127,14 @@ public class TanulmanyiOsztalyTest {
 				születésnap, szak);
 		to.hallgatóHozzáadása(vezetéknév, keresztnév, felhasználónév, jelszó,
 				születésnap, szak);
+	}
+	
+	@Test(expected = TanulmanyiRendszerKivetel.class)
+	public void hallgatoHozzaadasaTest3() throws TanulmanyiRendszerKivetel {
+		Hallgato hallgato1 = to.hallgatóHozzáadása("Kiss", "Adam", "adam",
+				"adam", new Date(), new Szak("pti", Szak.Szint.BSc));
+		Hallgato hallgato2 = to.hallgatóHozzáadása("Nagy", "Adam", "adam",
+				"adam", new Date(), new Szak("pti", Szak.Szint.BSc));
 	}
 
 	@Test(expected = TanulmanyiRendszerKivetel.class)
@@ -205,6 +221,14 @@ public class TanulmanyiOsztalyTest {
 				"IK-F0");
 		to.gyakorlatiCsoportHozzáadása(mt, o1, "IK-F03", new Idopont(Napok.Csütörtök, 10));
 		to.gyakorlatiCsoportHozzáadása(mt, o1, "IK-F03", new Idopont(Napok.Csütörtök, 10));
+	}
+	
+	@Test
+	public void foglaltFelhasználónévTest() {
+		Kozpont.getTanulmányiOsztályDolgozóLista().add(0, new TanulmanyiOsztaly("T", "O", "to", "pw", new Date(0)));
+		assertEquals(true, to.foglaltFelhasználónév("to"));
+		assertEquals(true, to.foglaltFelhasználónév("admin"));
+		assertEquals(false, to.foglaltFelhasználónév("nincs"));
 	}
 	
 }

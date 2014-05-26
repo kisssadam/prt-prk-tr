@@ -125,15 +125,20 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 	 * @throws TanulmanyiRendszerKivetel Ha nem sikerül hozzáadni az oktatót.
 	 */
 	public Oktato oktatóHozzáadása(String vezetéknév, String keresztnév, String felhasználónév,
-			String jelszó, Date születésnap, int fizetés) throws TanulmanyiRendszerKivetel {
+			String jelszó, Date születésnap, int fizetés) throws TanulmanyiRendszerKivetel {		
 		List<Oktato> oktatok = Kozpont.getOktatóLista();
-
 		Oktato oktato = new Oktato(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, fizetés);
 		
 		if (oktatok.contains(oktato)) {
 			logger.warn("Már van ilyen oktató: {}", oktato);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen oktató!");
 		}
+		
+		if (foglaltFelhasználónév(felhasználónév)) {
+			logger.warn("A megadott felhasználónév foglalt ({})!", felhasználónév);
+			throw new TanulmanyiRendszerKivetel("A megadott felhasználónév foglalt!");
+		}
+		
 		oktatok.add(oktato);
 		logger.info("Új oktató lett hozzáadva: {}", oktato);
 		return oktato;
@@ -175,11 +180,16 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 	public Hallgato hallgatóHozzáadása(String vezetéknév, String keresztnév,
 			String felhasználónév, String jelszó, Date születésnap, Szak szak) throws TanulmanyiRendszerKivetel {
 		List<Hallgato> hallgatóLista = Kozpont.getHallgatóLista();
-		
 		Hallgato hallgato = new Hallgato(vezetéknév, keresztnév, felhasználónév, jelszó, születésnap, szak);
+		
 		if (hallgatóLista.contains(hallgato)) {
 			logger.warn("Már van ilyen hallgató: {}.", hallgato);
 			throw new TanulmanyiRendszerKivetel("Már van ilyen hallgató!");
+		}
+		
+		if (foglaltFelhasználónév(felhasználónév)) {
+			logger.warn("A megadott felhasználónév foglalt ({})!", felhasználónév);
+			throw new TanulmanyiRendszerKivetel("A megadott felhasználónév foglalt!");
 		}
 		
 		hallgatóLista.add(hallgato);
@@ -262,4 +272,28 @@ public class TanulmanyiOsztaly extends Felhasznalo {
 		return gyakorlatiCsoport;
 	}
 	
+	/**
+	 * Megnézi, hogy foglalt-e a paraméterül kapott felhasználónév.
+	 * 
+	 * @param felhasználónév Ezt a felhasználónevet ellenőrzi.
+	 * @return <code>true</code> ha a kapott felhasználónév foglalt, <code>false</code> egyébként.
+	 */
+	public boolean foglaltFelhasználónév(String felhasználónév) {
+		for (Hallgato hallgato : Kozpont.getHallgatóLista()) {
+			if (hallgato.getFelhasználónév().equals(felhasználónév)) {
+				return true;
+			}
+		}
+		for (Oktato oktato : Kozpont.getOktatóLista()) {
+			if (oktato.getFelhasználónév().equals(felhasználónév)) {
+				return true;
+			}
+		}
+		for (TanulmanyiOsztaly to : Kozpont.getTanulmányiOsztályDolgozóLista()) {
+			if (to.getFelhasználónév().equals(felhasználónév)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
