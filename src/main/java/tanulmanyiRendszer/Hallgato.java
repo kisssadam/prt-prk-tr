@@ -303,7 +303,7 @@ public class Hallgato extends Felhasznalo {
 	 * Megvizsgálja, hogy a paraméterül kapott tantárgy előfeltételeit teljesít-e
 	 * a hallgató, azaz teljesítette-e már a korábbi félévekben a tantárgy előfeltételeit.
 	 * 
-	 * @param tantárgy Ennek a tantárgynak az előfeltételei lesznek ellenőrizve.
+	 * @param tantargy Ennek a tantárgynak az előfeltételei lesznek ellenőrizve.
 	 * @return <code>true</code> ha a tantárgy előfeltételei teljesülnek, egyébként <code>false</code>.
 	 */
 	public boolean isTantárgyElőfeltételekTeljesülnek(Tantargy tantargy) {
