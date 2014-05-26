@@ -92,9 +92,9 @@ public class Vizsga {
 	}
 
 	/**
-	 * Az {@link Vizsga#időpont#hashCode()}-ja,
-	 * a {@link Vizsga#meghirdetettTantargy#hashCode()}-ja és
-	 * a {@link Vizsga#terem#hashCode()}-ja alapján határozódik meg.
+	 * Az {@link Vizsga#időpont},
+	 * a {@link Vizsga#meghirdetettTantargy} és
+	 * a {@link Vizsga#terem} alapján határozódik meg.
 	 * 
 	 * @return Visszaadja az aktuális példány hashCode-ját.
 	 */

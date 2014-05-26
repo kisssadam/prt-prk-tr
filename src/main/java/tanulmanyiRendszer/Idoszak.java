@@ -75,8 +75,8 @@ public class Idoszak implements Comparable<Idoszak> {
 	}
 
 	/**
-	 * Az {@link Idoszak#eleje#hashCode()} és a
-	 * {@link Idoszak#vége#hashCode()} alapján számolja ki.
+	 * Az {@link Idoszak#eleje} és a
+	 * {@link Idoszak#vége} alapján számolja ki.
 	 * 
 	 * @return Visszaadja az időszak hashCode-ját.
 	 */

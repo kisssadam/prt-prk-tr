@@ -138,7 +138,7 @@ public class Szak {
 	}
 
 	/**
-	 * A {@link Szak#név#hashCode()} és a {@link Szak#szint#hashCode()}-ja
+	 * A {@link Szak#név} és a {@link Szak#szint}
 	 * szerint generálja a hashCode-ot.
 	 * 
 	 * @return visszaadja a szak hashCode-ját.

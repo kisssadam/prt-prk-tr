@@ -88,7 +88,7 @@ public class Tantargy {
 	}
 	
 	/**
-	 * Az id-je a {@link Felhasznalo#nextId} alapján lesz meghatározva.
+	 * Az id-je a {@link Tantargy#nextId} alapján lesz meghatározva.
 	 * 
 	 * @param tantárgykód A tantárgy kódja.
 	 * @param név A tantárgy neve.
@@ -101,7 +101,7 @@ public class Tantargy {
 	}
 	
 	/**
-	 * Az id-je a {@link Felhasznalo#nextId} alapján lesz meghatározva.
+	 * Az id-je a {@link Tantargy#nextId} alapján lesz meghatározva.
 	 * 
 	 * @param tantárgykód A tantárgy kódja.
 	 * @param név A tantárgy neve.
@@ -114,7 +114,7 @@ public class Tantargy {
 	}
 
 	/**
-	 * Ekkor nem lesz előfeltétele a tantárgynak, az id-je pedig a {@link Felhasznalo#nextId} alapján lesz meghatározva.
+	 * Ekkor nem lesz előfeltétele a tantárgynak, az id-je pedig a {@link Tantargy#nextId} alapján lesz meghatározva.
 	 * 
 	 * @param tantárgykód A tantárgy kódja.
 	 * @param név A tantárgy neve.

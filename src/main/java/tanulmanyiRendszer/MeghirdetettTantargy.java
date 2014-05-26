@@ -121,10 +121,10 @@ public class MeghirdetettTantargy {
 	}
 
 	/**
-	 * Az {@link #aktuálisFélév#hashCode()}-ja,
-	 * az {@link #előadásIdőpont#hashCode()}-ja,
-	 * az {@link #előadásTerem#hashCode()}-ja
-	 * és a {@link #tantárgy#hashCode()}-ja alapján
+	 * Az {@link MeghirdetettTantargy #aktuálisFélév},
+	 * az {@link MeghirdetettTantargy#előadásIdőpont},
+	 * az {@link MeghirdetettTantargy#előadásTerem}
+	 * és a {@link MeghirdetettTantargy#tantárgy} alapján
 	 * generálódik.
 	 * 
 	 * @return Visszaadja a {@link MeghirdetettTantargy} hashCode-ját.
