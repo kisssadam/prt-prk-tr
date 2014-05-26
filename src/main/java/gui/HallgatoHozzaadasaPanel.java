@@ -52,16 +52,16 @@ public class HallgatoHozzaadasaPanel extends JPanel {
 			final BorderLayout borderLayout) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{180, 180, 0};
-		gridBagLayout.rowHeights = new int[]{0, 31, 26, 31, 31, 31, 31, 39, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 31, 26, 31, 31, 31, 31, 0, 39, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 										
 										JLabel lblHallgatHozzadsa = new JLabel("Hallgató hozzáadása");
 										lblHallgatHozzadsa.setFont(new Font("Dialog", Font.BOLD, 14));
 										GridBagConstraints gbc_lblHallgatHozzadsa = new GridBagConstraints();
 										gbc_lblHallgatHozzadsa.gridwidth = 2;
-										gbc_lblHallgatHozzadsa.insets = new Insets(0, 0, 5, 5);
+										gbc_lblHallgatHozzadsa.insets = new Insets(0, 0, 5, 0);
 										gbc_lblHallgatHozzadsa.gridx = 0;
 										gbc_lblHallgatHozzadsa.gridy = 0;
 										add(lblHallgatHozzadsa, gbc_lblHallgatHozzadsa);
@@ -177,11 +177,20 @@ public class HallgatoHozzaadasaPanel extends JPanel {
 				gbc_szakBox.gridy = 6;
 				add(szakBox, gbc_szakBox);
 						
+						final HallgatoListazoPanel hallgatoListazoPanel = new HallgatoListazoPanel();
+						GridBagConstraints gbc_hallgatoListazoPanel = new GridBagConstraints();
+						gbc_hallgatoListazoPanel.gridwidth = 2;
+						gbc_hallgatoListazoPanel.insets = new Insets(0, 0, 5, 5);
+						gbc_hallgatoListazoPanel.fill = GridBagConstraints.BOTH;
+						gbc_hallgatoListazoPanel.gridx = 0;
+						gbc_hallgatoListazoPanel.gridy = 7;
+						add(hallgatoListazoPanel, gbc_hallgatoListazoPanel);
+						
 						JPanel panel = new JPanel();
 						GridBagConstraints gbc_panel = new GridBagConstraints();
 						gbc_panel.anchor = GridBagConstraints.SOUTHEAST;
 						gbc_panel.gridx = 1;
-						gbc_panel.gridy = 7;
+						gbc_panel.gridy = 8;
 						add(panel, gbc_panel);
 								
 										JButton btnNewButton_1 = new JButton("Mégsem");
@@ -213,7 +222,8 @@ public class HallgatoHozzaadasaPanel extends JPanel {
 											TanulmanyiOsztaly to = (TanulmanyiOsztaly) Kozpont
 													.getBejelentkezettFelhasználó();
 											try {
-												to.hallgatóHozzáadása(vezeteknevField.getText(),
+												Hallgato hallgato = to.hallgatóHozzáadása(
+														vezeteknevField.getText(),
 														keresztnevField.getText(), felhasznalonevField
 														.getText(), String.valueOf(jelszoField
 														.getPassword()), datePicker.getDate(), szak);
@@ -222,6 +232,13 @@ public class HallgatoHozzaadasaPanel extends JPanel {
 												felhasznalonevField.setText("");
 												jelszoField.setText("");
 												datePicker.setDate(new Date());
+												hallgatoListazoPanel.getHallgatoTableModel().addRow(new Object[] {
+														hallgato.getVezetéknév(),
+														hallgato.getKeresztnév(),
+														hallgato.getFelhasználónév(),
+														hallgato.getSzak(),
+														Kozpont.getSimpleDateFormat().format(hallgato.getSzületésnap())
+												});
 											} catch (TanulmanyiRendszerKivetel ex) {
 												JOptionPane.showMessageDialog(contentPane,
 														ex.getMessage(), "Figyelmeztetés",
